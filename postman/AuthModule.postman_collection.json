@@ -1,0 +1,238 @@
+{
+	"info": {
+		"_postman_id": "a66ad5dd-c6e5-4424-89ce-6fe0ad636882",
+		"name": "AuthModule",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "UTILISATEUR",
+			"item": [
+				{
+					"name": "CREATE",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get Profile",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": [
+						{
+							"name": "Get Profile",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/users/profile/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users",
+										"profile",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "286"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"11e-COJTEvs/OeYWGu+G2jlP0zATL+U\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 15 Mar 2022 13:23:14 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"nom\": \"romaric\",\n            \"prenom\": \"cabrel\",\n            \"telephone\": \"+237 655194159\",\n            \"email\": \"cabrelromaric@gmail.com\",\n            \"IdOauth\": null,\n            \"modeLogin\": \"Manuel\",\n            \"idRole\": 1,\n            \"createdAt\": \"2022-03-15T11:38:32.000Z\",\n            \"updatedAt\": \"2022-03-15T11:38:32.000Z\",\n            \"libelle\": \"administrateur\"\n        }\n    ],\n    \"meta\": {\n        \"page\": 1\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": [
+						{
+							"name": "Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"cabrelromaric@gmail.com\" , \r\n    \"motDePasse\" : \"12345\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/users/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "260"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"104-QcwLM/bVpxvFVRCje4exiaL96Mo\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 15 Mar 2022 15:28:59 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"password\": \"12345\",\n            \"nom\": \"romaric\",\n            \"prenom\": \"cabrel\",\n            \"telephone\": \"+237 655194159\",\n            \"email\": \"cabrelromaric@gmail.com\",\n            \"IdOauth\": null,\n            \"modeLogin\": \"Manuel\",\n            \"idRole\": 1,\n            \"createdAt\": \"2022-03-15T11:36:30.000Z\",\n            \"updatedAt\": \"2022-03-15T15:20:22.000Z\"\n        }\n    ]\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "ADMINISTRATEUR",
+			"item": [
+				{
+					"name": "GRAPHIQUE",
+					"item": []
+				},
+				{
+					"name": "PROFIL",
+					"item": [
+						{
+							"name": "List des profils",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": [
+								{
+									"name": "List des profils",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3000/users",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"users"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "716"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"2cc-29JSG70kmyJEQqjSMu6YXcsGjzc\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 15 Mar 2022 10:53:39 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"nom\": \"romaric\",\n            \"prenom\": \"cabrel\",\n            \"telephone\": \"+237 655194159\",\n            \"email\": \"cabrelromaric@gmail.com\",\n            \"IdOauth\": null,\n            \"modeLogin\": \"Manuel\",\n            \"idRole\": 1,\n            \"libelle\": \"administrateur\"\n        },\n        {\n            \"id\": 1,\n            \"nom\": \"jean\",\n            \"prenom\": \"pierre\",\n            \"telephone\": \"+237 655194159\",\n            \"email\": \"jean@gmail.com\",\n            \"IdOauth\": null,\n            \"modeLogin\": \"GoogleId\",\n            \"idRole\": 2,\n            \"libelle\": \"administrateur\"\n        },\n        {\n            \"id\": 2,\n            \"nom\": \"romaric\",\n            \"prenom\": \"cabrel\",\n            \"telephone\": \"+237 655194159\",\n            \"email\": \"cabrelromaric@gmail.com\",\n            \"IdOauth\": null,\n            \"modeLogin\": \"Manuel\",\n            \"idRole\": 1,\n            \"libelle\": \"standard\"\n        },\n        {\n            \"id\": 2,\n            \"nom\": \"jean\",\n            \"prenom\": \"pierre\",\n            \"telephone\": \"+237 655194159\",\n            \"email\": \"jean@gmail.com\",\n            \"IdOauth\": null,\n            \"modeLogin\": \"GoogleId\",\n            \"idRole\": 2,\n            \"libelle\": \"standard\"\n        }\n    ],\n    \"meta\": {\n        \"page\": 1\n    }\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "GRAPHIQUE",
+			"item": []
+		}
+	]
+}
