@@ -276,6 +276,7 @@ async function create(user) {
  let parrain = user.parrain || "" ;
  let nom = user.nom || ""  ;
  let email = user.email || "" ;
+  let login = user.login || "" ;
  let telephone = user.telephone || ""  ; 
  let est_limite = user.est_limite  || "" ;
  let montant_limite = user.montant_limite || "" ;
@@ -301,12 +302,12 @@ async function create(user) {
 
   const result = await db.query(
     `INSERT INTO user 
-    (  USE_ID_USER , ID_ROLE, NOM_USER, EMAIL, TELEPHONE , PASSWORD , EST_LIMITE, MONTANT_LIMITE ,offre , details_offre 
+    (  USE_ID_USER , ID_ROLE, LOGIN, NOM_USER, EMAIL, TELEPHONE , PASSWORD , EST_LIMITE, MONTANT_LIMITE ,offre , details_offre 
       , engagement , etat_signature , date_signature , cni ,patente , nui , etat_validation , date_validation , etat_stock , date_expedition , adresse,
       precompte , ristourne
       )
     VALUES 
-    ( "${parrain}", "${role}", "${nom}" , "${email}" , "${telephone}", "${password}" ,
+    ( "${parrain}", "${role}", "${login}", "${nom}" , "${email}" , "${telephone}", "${password}" ,
      "${est_limite}"   ,  "${montant_limite}" , "${offre}" , "${details_offre}" , "${engagement}" , "${etat_signature}" , "${date_signature}" 
      , "${cni}" , "${patente}" , "${nui}" , "${etat_validation}" , "${date_validation}" , "${etat_stock}"  , "${date_expedition}"
      , "${adresse}" , "${precompte}"  , "${ristourne}" 
