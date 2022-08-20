@@ -27,11 +27,9 @@ async function getMultiple(page = 1) {
 async function getOne(page = 1, id) {
   const offset = helper.getOffset(page, config.listPerPage);
   const rows = await db.query(
-    `SELECT  
-    utilisateur.id,  nom, prenom, telephone, email, IdOauth, modeLogin ,
-   image, utilisateur.createdAt, utilisateur.updatedAt , role.libelle 
-    FROM utilisateur , role 
-    where utilisateur.id="${id}" and role.id=utilisateur.idRole `
+    `SELECT  *
+     from user ,roles
+    where user.id="${id}" and roles.ID_ROLE=user.ID_ROLE `
   );
   const data = helper.emptyOrRows(rows);
   const meta = { page };
@@ -278,15 +276,41 @@ async function create(user) {
  let parrain = user.parrain || "" ;
  let nom = user.nom || ""  ;
  let email = user.email || "" ;
- let telephone = user.telephone || "" 
- let est_limite = user.est_limite  || ""
- let montant_limite = user.montant_limite || "" 
+ let telephone = user.telephone || ""  ; 
+ let est_limite = user.est_limite  || "" ;
+ let montant_limite = user.montant_limite || "" ;
+
+ let offre = user.offre  || "" ;
+ let details_offre = user.details_offre  || "" ;
+ let engagement = user.engagement  || "" ;
+ let etat_signature = user.etat_signature  || "" ;
+ let date_signature = user.date_signature  || "" ;
+  let cni = user.cni  || "" ;
+
+   let patente = user.patente  || "" ;
+    let nui = user.etat_signature  || "" ;
+    let etat_validation = user.etat_validation  || "" ;
+
+     let date_validation = user.date_validation  || "" ;
+     let etat_stock = user.etat_stock  || "" ;
+
+      let date_expedition = user.date_expedition  || "" ;
+ let adresse = user.adresse  || "" ;
+         let precompte = user.precompte  || "" ;
+          let ristourne = user.ristourne  || "" ;
+
   const result = await db.query(
     `INSERT INTO user 
-    (  USE_ID_USER , ID_ROLE, NOM_USER, EMAIL, TELEPHONE , PASSWORD , EST_LIMITE, MONTANT_LIMITE )
+    (  USE_ID_USER , ID_ROLE, NOM_USER, EMAIL, TELEPHONE , PASSWORD , EST_LIMITE, MONTANT_LIMITE ,offre , details_offre 
+      , engagement , etat_signature , date_signature , cni ,patente , nui , etat_validation , date_validation , etat_stock , date_expedition , adresse,
+      precompte , ristourne
+      )
     VALUES 
     ( "${parrain}", "${role}", "${nom}" , "${email}" , "${telephone}", "${password}" ,
-     "${est_limite}"   ,  "${montant_limite}" )`
+     "${est_limite}"   ,  "${montant_limite}" , "${offre}" , "${details_offre}" , "${engagement}" , "${etat_signature}" , "${date_signature}" 
+     , "${cni}" , "${patente}" , "${nui}" , "${etat_validation}" , "${date_validation}" , "${etat_stock}"  , "${date_expedition}"
+     , "${adresse}" , "${precompte}"  , "${ristourne}" 
+     )`
   );
 
   let message = "Error in creating user";

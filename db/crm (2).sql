@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mer. 17 août 2022 à 14:38
+-- Généré le : sam. 20 août 2022 à 13:23
 -- Version du serveur : 10.4.22-MariaDB
 -- Version de PHP : 8.0.15
 
@@ -69,6 +69,16 @@ CREATE TABLE `concerner` (
   `ID_PRODUIT` int(11) NOT NULL,
   `ID_COMMANDE` int(11) NOT NULL,
   `QUANTITE` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `configuration`
+--
+
+CREATE TABLE `configuration` (
+  `tva` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -145,22 +155,39 @@ CREATE TABLE `user` (
   `USE_ID_USER` int(11) NOT NULL,
   `ID_ROLE` int(11) NOT NULL,
   `NOM_USER` varchar(254) DEFAULT NULL,
+  `LOGIN` varchar(50) DEFAULT NULL,
   `EMAIL` varchar(100) DEFAULT NULL,
   `PASSWORD` varchar(255) NOT NULL,
-  `MOT_DE_PASSE` varchar(254) DEFAULT NULL,
   `EST_LIMITE` tinyint(1) DEFAULT NULL,
   `MONTANT_LIMITE` int(11) DEFAULT NULL,
   `TELEPHONE` int(11) DEFAULT NULL,
   `CREATED_AT` datetime DEFAULT NULL,
-  `UPDATE_AT` datetime DEFAULT NULL
+  `UPDATE_AT` datetime DEFAULT NULL,
+  `offre` varchar(100) DEFAULT NULL,
+  `details_offre` varchar(255) DEFAULT NULL,
+  `engagement` varchar(255) DEFAULT NULL,
+  `etat_signature` tinyint(4) DEFAULT NULL,
+  `date_signature` date DEFAULT NULL,
+  `cni` varchar(255) DEFAULT NULL,
+  `patente` varchar(255) DEFAULT NULL,
+  `nui` varchar(255) DEFAULT NULL,
+  `etat_validation` tinyint(4) DEFAULT NULL,
+  `date_validation` timestamp NULL DEFAULT NULL,
+  `etat_stock` varchar(255) DEFAULT NULL,
+  `date_expedition` date DEFAULT NULL,
+  `adresse` varchar(255) DEFAULT NULL,
+  `precompte` float DEFAULT NULL,
+  `ristourne` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `user`
 --
 
-INSERT INTO `user` (`ID_USER`, `USE_ID_USER`, `ID_ROLE`, `NOM_USER`, `EMAIL`, `PASSWORD`, `MOT_DE_PASSE`, `EST_LIMITE`, `MONTANT_LIMITE`, `TELEPHONE`, `CREATED_AT`, `UPDATE_AT`) VALUES
-(0, 0, 1, 'cabrel', 'cabrelroma@tet.com', '$2a$08$JSn.oRyflREI5VRQxakvteWOQRgQ0T5vXz74BanfhCx4ozYd1M02q', NULL, 0, 0, 655194159, NULL, NULL);
+INSERT INTO `user` (`ID_USER`, `USE_ID_USER`, `ID_ROLE`, `NOM_USER`, `LOGIN`, `EMAIL`, `PASSWORD`, `EST_LIMITE`, `MONTANT_LIMITE`, `TELEPHONE`, `CREATED_AT`, `UPDATE_AT`, `offre`, `details_offre`, `engagement`, `etat_signature`, `date_signature`, `cni`, `patente`, `nui`, `etat_validation`, `date_validation`, `etat_stock`, `date_expedition`, `adresse`, `precompte`, `ristourne`) VALUES
+(1, 0, 1, 'cabrel', NULL, 'cabrelroma@tet.com', '$2a$08$JSn.oRyflREI5VRQxakvteWOQRgQ0T5vXz74BanfhCx4ozYd1M02q', 0, 0, 655194159, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(2, 2, 2, 'cabrel', NULL, 'cabrelroma@tetet.com', '$2a$08$WcpSVd6zuFhySzYHTWZGCeAAgEyUYAspjsJgsUiyudqJCJVq6NiQi', 0, 0, 655194159, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(3, 1, 2, '', NULL, 'roma@gmail.com', '$2a$08$hyYEy2rGrzlRCopJOf.xrOAwZsAFniDtbCLZ13HPUCm1r579PmQB2', 1, 1000000, 655194159, NULL, NULL, 'cash', 'Achat bon marche', '1000000', 1, '2022-10-08', '1', '1', '1', 1, '0000-00-00 00:00:00', '1', '0000-00-00', 'test', 2, 1);
 
 --
 -- Index pour les tables déchargées
@@ -221,6 +248,16 @@ ALTER TABLE `roles`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`ID_USER`);
+
+--
+-- AUTO_INCREMENT pour les tables déchargées
+--
+
+--
+-- AUTO_INCREMENT pour la table `user`
+--
+ALTER TABLE `user`
+  MODIFY `ID_USER` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Contraintes pour les tables déchargées
