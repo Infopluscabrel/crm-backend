@@ -23,6 +23,7 @@ function isLoggedIn(req, res, next) {
 }
 
 const user = require("./routes/user") ; 
+const article = require("./routes/article") ; 
 app.use(express.json());
 app.use(
   express.urlencoded({
@@ -38,6 +39,7 @@ app.use(passport.session());
 
 /* Error handler middleware */
 app.use("/user", user );
+app.use("/article", article );
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   console.error(err.message, err.stack)
