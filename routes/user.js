@@ -20,6 +20,11 @@ router.get("/all", async function (req, res, next) {
 /* POST users language */
 router.post("/new", async function (req, res, next) {
   try {
+   
+     console.log("telephone  =  " + req.body.telephone   ) ; 
+     
+         console.log("email  =  " + req.body.email   ) ; 
+
     res.json(await users.create(req.body));
   } catch (err) {
     console.error(`Error while creating users `, err.message);

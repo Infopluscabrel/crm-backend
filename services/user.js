@@ -110,7 +110,7 @@ async function login(email, password) {
 
   const rows = await db.query(
     `SELECT * 
-    FROM utilisateur 
+    FROM user 
     where email="${email}"  `
   );
   const data = helper.emptyOrRows(rows);
@@ -300,6 +300,19 @@ async function create(user) {
          let precompte = user.precompte  || "" ;
           let ristourne = user.ristourne  || "" ;
 
+          let que =  `INSERT INTO user 
+    (  USE_ID_USER , ID_ROLE, LOGIN, NOM_USER, EMAIL, TELEPHONE , PASSWORD , EST_LIMITE, MONTANT_LIMITE ,offre , details_offre 
+      , engagement , etat_signature , date_signature , cni ,patente , nui , etat_validation , date_validation , etat_stock , date_expedition , adresse,
+      precompte , ristourne
+      )
+    VALUES 
+    ( "${parrain}", "${role}", "${login}", "${nom}" , "${email}" , "${telephone}", "${password}" ,
+     "${est_limite}"   ,  "${montant_limite}" , "${offre}" , "${details_offre}" , "${engagement}" , "${etat_signature}" , "${date_signature}" 
+     , "${cni}" , "${patente}" , "${nui}" , "${etat_validation}" , "${date_validation}" , "${etat_stock}"  , "${date_expedition}"
+     , "${adresse}" , "${precompte}"  , "${ristourne}" 
+     )` ;
+
+     console.log("query .  "  + que) ; 
   const result = await db.query(
     `INSERT INTO user 
     (  USE_ID_USER , ID_ROLE, LOGIN, NOM_USER, EMAIL, TELEPHONE , PASSWORD , EST_LIMITE, MONTANT_LIMITE ,offre , details_offre 
