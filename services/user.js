@@ -29,7 +29,7 @@ async function getOne(page = 1, id) {
   const rows = await db.query(
     `SELECT  *
      from user ,roles
-    where user.id="${id}" and roles.ID_ROLE=user.ID_ROLE `
+    where user.ID_USER="${id}" and roles.ID_ROLE=user.ID_ROLE `
   );
   const data = helper.emptyOrRows(rows);
   const meta = { page };
