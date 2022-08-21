@@ -311,7 +311,7 @@ async function create(user) {
      , "${cni}" , "${patente}" , "${nui}" , "${etat_validation}" , "${date_validation}" , "${etat_stock}"  , "${date_expedition}"
      , "${adresse}" , "${precompte}"  , "${ristourne}" 
      )` ;
-
+ 
      console.log("query .  "  + que) ; 
   const result = await db.query(
     `INSERT INTO user 
@@ -374,12 +374,19 @@ async function findOrcreateById(id, picture = "", mode, nom = "", prenom = "", e
 }
 
 async function update(id, user) {
-  let role = user.idRole || 2 ;
+
   const result = await db.query(
-    `UPDATE utilisateur
-    SET nom="${user.nom}", prenom="${user.prenom}", idRole=${role} , 
-    telephone = "${user.telephone}" 
-    WHERE id="${id}"`
+    `UPDATE user
+    SET NOM_USER="${user.nom}", LOGIN="${user.login}", email="${user.email}" , 
+    EST_LIMITE = "${user.est_limite}"  , TELEPHONE = "${user.telephone}"  ,details_offre = "${user.details_offre}"  ,
+    engagement = "${user.engagement}"  ,
+    etat_signature = "${user.etat_signature}"  ,
+    cni = "${user.cni}"  , patente = "${user.patente}"  ,
+    nui = "${user.nui}"  , etat_validation = "${user.etat_validation}"  , 
+    etat_stock = "${user.etat_stock}"  , adresse = "${user.adresse}"  ,
+    precompte = "${user.precompte}"    
+
+    WHERE ID_USER="${id}"`
   );
 
   let message = "Error in updating programming language";

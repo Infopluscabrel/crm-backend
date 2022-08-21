@@ -248,6 +248,67 @@ router.post('/profile-upload/:id', upload.single('profile-file'), async function
 
 })
 
+router.post('/profile-upload/:id', upload.single('profile-file'), async function (req, res, next) {
+  // req.file is the `profile-file` file
+  // req.body will hold the text fields, if there were any
+ 
+   try {
+    
+    res.json(await users.updateProfile(req.params.id  , req.file.filename ) );
+  } catch (err) {
+    console.error(`Error while updating user `, err.message);
+    next(err);
+  }
+
+
+})
+
+/*
+router.post('/cni1-upload/:id', upload.single('profile-file'), async function (req, res, next) {
+  // req.file is the `profile-file` file
+  // req.body will hold the text fields, if there were any
+ 
+   try {
+    
+    res.json(await users.updateProfile(req.params.id  , req.file.filename ) );
+  } catch (err) {
+    console.error(`Error while updating user `, err.message);
+    next(err);
+  }
+
+
+})
+
+router.post('/cni2-upload/:id', upload.single('profile-file'), async function (req, res, next) {
+  // req.file is the `profile-file` file
+  // req.body will hold the text fields, if there were any
+ 
+   try {
+    
+    res.json(await users.updateProfile(req.params.id  , req.file.filename ) );
+  } catch (err) {
+    console.error(`Error while updating user `, err.message);
+    next(err);
+  }
+
+
+})
+
+router.post('/patente-upload/:id', upload.single('profile-file'), async function (req, res, next) {
+  // req.file is the `profile-file` file
+  // req.body will hold the text fields, if there were any
+ 
+   try {
+    
+    res.json(await users.updateProfile(req.params.id  , req.file.filename ) );
+  } catch (err) {
+    console.error(`Error while updating user `, err.message);
+    next(err);
+  }
+
+
+})
+*/
 
 
 

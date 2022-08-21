@@ -330,15 +330,15 @@ async function findOrcreateById(id, picture = "", mode, nom = "", prenom = "", e
 }
 
 async function update(id, produit) {
-  let role = produit.idRole || 2 ;
+
   const result = await db.query(
-    `UPDATE utilisateur
-    SET nom="${produit.nom}", prenom="${produit.prenom}", idRole=${role} , 
-    telephone = "${produit.telephone}" 
-    WHERE id="${id}"`
+    `UPDATE produit
+    SET NOM_PRODUIT="${produit.nom}", prix="${produit.prix}", QUANTITE=${produit.quantite} 
+    
+    WHERE ID_PRODUIT="${id}"`
   );
 
-  let message = "Error in updating programming language";
+  let message = "Error in updating product language";
 
   if (result.affectedRows) {
     message = "produit updated successfully";
