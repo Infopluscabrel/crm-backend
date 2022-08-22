@@ -113,7 +113,7 @@ router.get("/profile",auth ,  async function (req, res, next) {
 router.post("/login", async function (req, res, next) {
   try {
     
-    res.json(await users.login( req.body.email , req.body.motDePasse ));
+    res.json(await users.login( req.body.login , req.body.password ));
   } catch (err) {
     console.error(`Error while getting users  `, err.message);
     next(err);

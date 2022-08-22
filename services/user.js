@@ -74,10 +74,10 @@ async function getOneIdToken(id, token) {
 async function getOneIdRefreshToken(id, token) {
   let page = 1;
   let quer = `SELECT  
-    utilisateur.id,  nom, prenom, telephone, email, IdOauth, modeLogin, 
+    user.id,  nom, prenom, telephone, email, IdOauth, modeLogin, 
    image, utilisateur.createdAt, utilisateur.updatedAt , role.libelle 
     FROM utilisateur , role
-    where utilisateur.id="${id}" and refresh_token="${token}" `
+    where user.id="${id}" and refresh_token="${token}" `
   console.log("token ref" + token)
 
   const rows = await db.query(
@@ -101,17 +101,17 @@ async function getOneIdRefreshToken(id, token) {
   };
 }
 
-async function login(email, password) {
+async function login(login, password) {
   let UserToken;
   let userRefresh;
 
-  await validateEmail(email);
+ 
 
 
   const rows = await db.query(
     `SELECT * 
     FROM user 
-    where email="${email}"  `
+    where LOGIN="${login}"  `
   );
   const data = helper.emptyOrRows(rows);
 
@@ -121,11 +121,11 @@ async function login(email, password) {
   //const meta = { page };
   if (data.length != 0) {
 
-    if(data[0].password == null ){
+    if(data[0].PASSWORD == null ){
       return "User must login with Web SSO "
     }
 
-  const isMatch = await bcrypt.compare(password, data[0].password)
+  const isMatch = await bcrypt.compare(password, data[0].PASSWORD)
 
    
 
@@ -137,9 +137,9 @@ async function login(email, password) {
     generateAuthToken(data[0]).then(async (token) => {
 
       const saveTOken = await db.query(
-        `UPDATE utilisateur
+        `UPDATE user
 set token = "${token}"
-where id= "${data[0].id}" `
+where ID_USER= "${data[0].id}" `
       );
 
       UserToken = token;
@@ -150,9 +150,9 @@ where id= "${data[0].id}" `
     generateRefreshToken(data[0]).then(async (rtoken) => {
 
       const saveTOken = await db.query(
-        `UPDATE utilisateur
+        `UPDATE user
               set refresh_token = "${rtoken}"
-              where id= "${data[0].id}" `
+              where ID_USER= "${data[0].id}" `
       );
       userRefresh = rtoken;
     });
@@ -177,7 +177,7 @@ async function refreshToken(refresh) {
 
   const rows = await db.query(
     `SELECT * 
-    FROM utilisateur 
+    FROM user 
     where refresh_token="${refresh}"  `
   );
   const data = helper.emptyOrRows(rows);
@@ -196,9 +196,9 @@ async function refreshToken(refresh) {
     generateAuthToken(data[0]).then(async (token) => {
 
       const saveTOken = await db.query(
-        `UPDATE utilisateur
+        `UPDATE user
 set token = "${token}"
-where id= "${data[0].id}" `
+where ID_USER= "${data[0].id}" `
       );
 
       return { token };
@@ -232,9 +232,9 @@ async function generateAuthToken(user) {
 
   // update user table 
   const saveTOken = await db.query(
-    `UPDATE utilisateur
+    `UPDATE user
 set token = "${token}"
-where id= "${user.id}" `
+where ID_USER= "${user.id}" `
   );
 
 
@@ -254,9 +254,9 @@ async function generateRefreshToken(user) {
 
   // update user table 
   const saveTOken = await db.query(
-    `UPDATE utilisateur
+    `UPDATE user
 set refresh_token = "${rtoken}"
-where id= "${user.id}" `
+where ID_USER= "${user.id}" `
   );
 
 
@@ -400,11 +400,11 @@ async function update(id, user) {
 
 async function updatepassword(id, user) {
 
-  let password = await bcrypt.hash(user.motDePasse, 8);
+  let password = await bcrypt.hash(user.password, 8);
   const result = await db.query(
-    `UPDATE utilisateur
-    SET password="${password}"
-    WHERE id="${id}"`
+    `UPDATE user
+    SET PASSWORD="${password}"
+    WHERE ID_USER="${id}"`
   );
 
   let message = "Error in updating programming language";

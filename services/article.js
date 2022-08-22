@@ -333,7 +333,7 @@ async function update(id, produit) {
 
   const result = await db.query(
     `UPDATE produit
-    SET NOM_PRODUIT="${produit.nom}", prix="${produit.prix}", QUANTITE=${produit.quantite} 
+    SET NOM_PRODUIT="${produit.nom}", prix="${produit.prix}", QUANTITE="${produit.quantite}"
     
     WHERE ID_PRODUIT="${id}"`
   );
