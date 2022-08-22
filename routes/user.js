@@ -152,10 +152,11 @@ router.put("/update",   async function (req, res, next) {
 });
 
 /* PUT users password */
-router.put("/update/password", auth ,  async function (req, res, next) {
+//router.put("/update/password", auth ,  async function (req, res, next) {
+router.put("/update/password",   async function (req, res, next) {
   try {
     
-    res.json(await users.updatepassword(req.user.id  , req.body) );
+    res.json(await users.updatepassword(req.body.id  , req.body) );
   } catch (err) {
     console.error(`Error while updating user `, err.message);
     next(err);
