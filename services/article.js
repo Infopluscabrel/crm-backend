@@ -351,13 +351,13 @@ async function entreeStock(id, produit) {
 
   const result = await db.query(
     `UPDATE produit
-    SET  QUANTITE="${produit.quantite}"
+    SET  QUANTITE=produit.QUANTITE + "${produit.quantite}"
     
     WHERE ID_PRODUIT="${id}"`
   );
 
    const entree = await db.query(
-    `INSERT INTO entreestock( id_produit, quantite) VALUES ( "${produit.id_produit}"  , "${produit.quantite}" )`
+    `INSERT INTO entreestock( id_produit, quantite) VALUES ( "${produit.id}"  , "${produit.quantite}" )`
   );
   let message = "Erreur lors de l'entree en stocks ";
 
@@ -367,6 +367,22 @@ async function entreeStock(id, produit) {
 
   return { message };
 }
+
+async function entreeStockList(id, produit, page = 1) {
+const offset = helper.getOffset(page, config.listPerPage);
+  const rows = await db.query(
+    `SELECT *
+    FROM entreestock  LIMIT ${offset},${config.listPerPage}`
+  );
+  const data = helper.emptyOrRows(rows);
+  const meta = { page };
+
+  return {
+    data,
+    meta,
+  };
+}
+
 async function updatepassword(id, produit) {
 
   let password = await bcrypt.hash(produit.motDePasse, 8);
@@ -437,6 +453,7 @@ module.exports = {
   getOneIdRefreshToken,
   updatepassword,
   updateProfile,
-  entreeStock
+  entreeStock,
+  entreeStockList
 
 };

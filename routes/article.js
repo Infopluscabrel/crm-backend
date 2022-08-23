@@ -146,6 +146,16 @@ router.put("/update",   async function (req, res, next) {
   }
 });
 
+/* Entree de stocks  */
+router.get("/stock/entree/all",   async function (req, res, next) {
+  try {
+    
+    res.json(await articles.entreeStockList() );
+  } catch (err) {
+    console.error(`Error on entries list `, err.message);
+    next(err);
+  }
+});
 /* PUT articles language */
 router.post("/stock/entree",   async function (req, res, next) {
   try {
