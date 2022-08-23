@@ -28,8 +28,8 @@ async function getOne(page = 1, id) {
   const offset = helper.getOffset(page, config.listPerPage);
   const rows = await db.query(
     `SELECT  *
-     from produit ,roles
-    where produit.id="${id}" and roles.ID_ROLE=produit.ID_ROLE `
+     from produit 
+    where produit.ID_PRODUIT="${id}"  `
   );
   const data = helper.emptyOrRows(rows);
   const meta = { page };
