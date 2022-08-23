@@ -371,8 +371,11 @@ async function entreeStock(id, produit) {
 async function entreeStockList(id, produit, page = 1) {
 const offset = helper.getOffset(page, config.listPerPage);
   const rows = await db.query(
-    `SELECT *
-    FROM entreestock  LIMIT ${offset},${config.listPerPage}`
+    `SELECT id , entreestock.id_produit ,entreestock.quantite ,NOM_PRODUIT
+    FROM entreestock , produit  
+    
+    where produit.ID_PRODUIT=entreestock.id_produit
+    LIMIT ${offset},${config.listPerPage}`
   );
   const data = helper.emptyOrRows(rows);
   const meta = { page };
