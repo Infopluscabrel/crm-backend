@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : dim. 21 août 2022 à 15:50
+-- Généré le : mar. 23 août 2022 à 17:23
 -- Version du serveur : 10.4.22-MariaDB
 -- Version de PHP : 8.0.15
 
@@ -84,12 +84,35 @@ CREATE TABLE `configuration` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `entreestock`
+--
+
+CREATE TABLE `entreestock` (
+  `id` int(11) NOT NULL,
+  `id_produit` int(11) NOT NULL,
+  `quantite` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déchargement des données de la table `entreestock`
+--
+
+INSERT INTO `entreestock` (`id`, `id_produit`, `quantite`) VALUES
+(1, 8, 10),
+(2, 8, 10),
+(3, 8, 10),
+(4, 8, 10);
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `facture`
 --
 
 CREATE TABLE `facture` (
   `ID_FACTURE` int(11) NOT NULL,
   `QRCODE` varchar(254) DEFAULT NULL,
+  `NET_A_PAYER` float NOT NULL,
   `CREATED_AT` datetime DEFAULT NULL,
   `UPDATED_AT` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -128,11 +151,13 @@ CREATE TABLE `produit` (
 
 INSERT INTO `produit` (`ID_PRODUIT`, `ID_CATEGORIE`, `NOM_PRODUIT`, `prix`, `QUANTITE`, `PROPRIETAIRE`, `CREATED_AT`, `UPDATE_AT`) VALUES
 (1, NULL, 'kadji', 1233, 111, 1, NULL, NULL),
-(2, 2, 'test', 0, 1, 11, '2022-08-21 12:23:57', '2022-08-21 12:23:57'),
+(2, 2, 'guiness smooth vol 2', 122, 1555, 11, '2022-08-21 12:23:57', '2022-08-21 12:23:57'),
 (3, 2, 'test', 0, 1, 11, '2022-08-21 12:23:57', '2022-08-21 12:23:57'),
 (4, 2, 'test', 0, 1, 11, '2022-08-21 12:23:57', '2022-08-21 12:23:57'),
 (5, NULL, 'guiness smooth', 122, 111, 2, NULL, NULL),
-(6, NULL, 'petite guiness ', 122, 111, 2, NULL, NULL);
+(6, NULL, 'petite guiness ', 122, 111, 2, NULL, NULL),
+(7, NULL, 'petite guiness ', 122, 111, 2, NULL, NULL),
+(8, NULL, 'Grande guiness 3', 500, 1020, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -190,19 +215,22 @@ CREATE TABLE `user` (
   `date_expedition` date DEFAULT NULL,
   `adresse` varchar(255) DEFAULT NULL,
   `precompte` float DEFAULT NULL,
-  `ristourne` float DEFAULT NULL
+  `ristourne` float DEFAULT NULL,
+  `token` varchar(255) DEFAULT NULL,
+  `refresh_token` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `user`
 --
 
-INSERT INTO `user` (`ID_USER`, `USE_ID_USER`, `ID_ROLE`, `NOM_USER`, `LOGIN`, `email`, `PASSWORD`, `EST_LIMITE`, `MONTANT_LIMITE`, `TELEPHONE`, `CREATED_AT`, `UPDATE_AT`, `offre`, `details_offre`, `engagement`, `etat_signature`, `date_signature`, `cni`, `patente`, `nui`, `etat_validation`, `date_validation`, `etat_stock`, `date_expedition`, `adresse`, `precompte`, `ristourne`) VALUES
-(1, 0, 1, 'cabrel', NULL, 'cabrelroma@tet.com', '$2a$08$JSn.oRyflREI5VRQxakvteWOQRgQ0T5vXz74BanfhCx4ozYd1M02q', 0, 0, 655194159, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(2, 2, 2, 'cabrel', NULL, 'cabrelroma@tetet.com', '$2a$08$WcpSVd6zuFhySzYHTWZGCeAAgEyUYAspjsJgsUiyudqJCJVq6NiQi', 0, 0, 655194159, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(3, 1, 2, '', NULL, 'roma@gmail.com', '$2a$08$hyYEy2rGrzlRCopJOf.xrOAwZsAFniDtbCLZ13HPUCm1r579PmQB2', 1, 1000000, 655194159, NULL, NULL, 'cash', 'Achat bon marche', '1000000', 1, '2022-10-08', '1', '1', '1', 1, '0000-00-00 00:00:00', '1', '0000-00-00', 'test', 2, 1),
-(4, 1, 2, '', 'laroma', 'roma1@gmail.com', '$2a$08$g9OFNt2zcj3MwUS1ksBmvublPORorBleDBR74sGmDxhv9O1FgYsFO', 1, 1000000, 655194159, NULL, NULL, 'cash', 'Achat bon marche', '1000000', 1, '2022-10-08', '1', '1', '1', 1, '0000-00-00 00:00:00', '1', '0000-00-00', 'test', 2, 1),
-(5, 1, 2, 'undefined', 'undefined', 'ddd@gmail.com', '$2a$08$pcVKZ9KVI0.RR8gqqhnNoOlF4aY1b35YVevQ/clPqp5pXAMMFJKiG', 0, 200000, 0, NULL, NULL, '', 'Achat bon marche', '1000000', 1, '0000-00-00', '1', '1', '1', 1, '0000-00-00 00:00:00', '1', '0000-00-00', 'test', 2, 1);
+INSERT INTO `user` (`ID_USER`, `USE_ID_USER`, `ID_ROLE`, `NOM_USER`, `LOGIN`, `email`, `PASSWORD`, `EST_LIMITE`, `MONTANT_LIMITE`, `TELEPHONE`, `CREATED_AT`, `UPDATE_AT`, `offre`, `details_offre`, `engagement`, `etat_signature`, `date_signature`, `cni`, `patente`, `nui`, `etat_validation`, `date_validation`, `etat_stock`, `date_expedition`, `adresse`, `precompte`, `ristourne`, `token`, `refresh_token`) VALUES
+(1, 0, 1, 'cabrel', NULL, 'cabrelroma@tet.com', '$2a$08$JSn.oRyflREI5VRQxakvteWOQRgQ0T5vXz74BanfhCx4ozYd1M02q', 0, 0, 655194159, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(2, 2, 2, 'cabrel', NULL, 'cabrelroma@tetet.com', '$2a$08$WcpSVd6zuFhySzYHTWZGCeAAgEyUYAspjsJgsUiyudqJCJVq6NiQi', 0, 0, 655194159, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(3, 1, 2, '', NULL, 'roma@gmail.com', '$2a$08$hyYEy2rGrzlRCopJOf.xrOAwZsAFniDtbCLZ13HPUCm1r579PmQB2', 1, 1000000, 655194159, NULL, NULL, 'cash', 'Achat bon marche', '1000000', 1, '2022-10-08', '1', '1', '1', 1, '0000-00-00 00:00:00', '1', '0000-00-00', 'test', 2, 1, NULL, NULL),
+(4, 1, 2, '', 'laroma', 'roma1@gmail.com', '$2a$08$g9OFNt2zcj3MwUS1ksBmvublPORorBleDBR74sGmDxhv9O1FgYsFO', 1, 1000000, 655194159, NULL, NULL, 'cash', 'Achat bon marche', '1000000', 1, '2022-10-08', '1', '1', '1', 1, '0000-00-00 00:00:00', '1', '0000-00-00', 'test', 2, 1, NULL, NULL),
+(5, 1, 2, 'undefined', 'undefined', 'ddd@gmail.com', '$2a$08$pcVKZ9KVI0.RR8gqqhnNoOlF4aY1b35YVevQ/clPqp5pXAMMFJKiG', 0, 200000, 0, NULL, NULL, '', 'Achat bon marche', '1000000', 1, '0000-00-00', '1', '1', '1', 1, '0000-00-00 00:00:00', '1', '0000-00-00', 'test', 2, 1, NULL, NULL),
+(8, 1, 2, '', 'tech', 'roma2@gmail.com', '$2a$08$5aymz9IQ01vp7M4zx9QOUeZtbi/h50imsXJTYCUgMC.D0JbwMdKpK', 1, 1000000, 655194159, '2022-08-22 11:37:24', NULL, 'cash', 'Achat bon marche', '1000000', 1, '2022-10-08', '1', '1', '1', 1, '0000-00-00 00:00:00', '1', '0000-00-00', 'test', 2, 1, NULL, NULL);
 
 --
 -- Index pour les tables déchargées
@@ -233,6 +261,12 @@ ALTER TABLE `compte`
 ALTER TABLE `concerner`
   ADD PRIMARY KEY (`ID_PRODUIT`,`ID_COMMANDE`),
   ADD KEY `FK_concerner` (`ID_COMMANDE`);
+
+--
+-- Index pour la table `entreestock`
+--
+ALTER TABLE `entreestock`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `facture`
@@ -271,16 +305,22 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT pour la table `entreestock`
+--
+ALTER TABLE `entreestock`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT pour la table `produit`
 --
 ALTER TABLE `produit`
-  MODIFY `ID_PRODUIT` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ID_PRODUIT` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `ID_USER` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ID_USER` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Contraintes pour les tables déchargées
