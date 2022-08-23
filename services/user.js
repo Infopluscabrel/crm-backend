@@ -102,8 +102,10 @@ async function getOneIdRefreshToken(id, token) {
 }
 
 async function login(login, password) {
+
+  let status ;
   let UserToken;
-  let userRefresh;
+  //let userRefresh;
 
  
 
@@ -115,7 +117,7 @@ async function login(login, password) {
   );
   const data = helper.emptyOrRows(rows);
 
-
+  status = 200 ;
 
 
   //const meta = { page };
@@ -131,6 +133,7 @@ async function login(login, password) {
 
     if (!isMatch) {
       throw new Error('Unable to login')
+      status= 404 
     }
 
 
@@ -147,7 +150,7 @@ where ID_USER= "${data[0].id}" `
 
     );
 
-    generateRefreshToken(data[0]).then(async (rtoken) => {
+   /* generateRefreshToken(data[0]).then(async (rtoken) => {
 
       const saveTOken = await db.query(
         `UPDATE user
@@ -155,20 +158,22 @@ where ID_USER= "${data[0].id}" `
               where ID_USER= "${data[0].id}" `
       );
       userRefresh = rtoken;
-    });
+    });*/
 
 
 
   } else {
     return "User don't exist ";
+    status = 404 ;
   }
 
 
 
   return {
+    status ,
     data,
     UserToken,
-    userRefresh
+    
 
   };
 }

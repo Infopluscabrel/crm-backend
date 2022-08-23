@@ -146,6 +146,17 @@ router.put("/update",   async function (req, res, next) {
   }
 });
 
+/* PUT articles language */
+router.post("/stock/entree",   async function (req, res, next) {
+  try {
+    
+    res.json(await articles.entreeStock(req.body.id  , req.body) );
+  } catch (err) {
+    console.error(`Error while updating article `, err.message);
+    next(err);
+  }
+});
+
 /* PUT articles password */
 router.put("/update/password", auth ,  async function (req, res, next) {
   try {
