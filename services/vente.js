@@ -13,7 +13,7 @@ async function getMultiple(page = 1) {
   const offset = helper.getOffset(page, config.listPerPage);
   const rows = await db.query(
     `SELECT *
-    FROM produit  LIMIT ${offset},${config.listPerPage}`
+    FROM vente  LIMIT ${offset},${config.listPerPage}`
   );
   const data = helper.emptyOrRows(rows);
   const meta = { page };
@@ -28,8 +28,8 @@ async function getOne(page = 1, id) {
   const offset = helper.getOffset(page, config.listPerPage);
   const rows = await db.query(
     `SELECT  *
-     from produit 
-    where produit.ID_PRODUIT="${id}"  `
+     from vente 
+    where vente.id="${id}"  `
   );
   const data = helper.emptyOrRows(rows);
   const meta = { page };
@@ -269,17 +269,17 @@ async function create(produit) {
 
 
 
- let nom = produit.nom || "" ;
- let prix = produit.prix || ""  ;
- let quantite = produit.quantite || "" ;
- let proprietaire = produit.proprietaire || ""  ; 
- 
+ let lignes = produit.lignes || "" ;
+ let status = produit.status || ""  ;
+ let payment_status = produit.payment_status || "" ;
+  let user_id = produit.user_id || "" ;
+ let total = produit.total || "" ;
  
   const result = await db.query(
-    `INSERT INTO produit 
-    (  NOM_PRODUIT , prix , QUANTITE ,  PROPRIETAIRE   )
+    `INSERT INTO vente 
+    (  lignes , status , payment_status ,  user_id , total   )
     VALUES 
-    ( "${nom}", "${prix}", "${quantite}" , "${proprietaire}" 
+    ( "${lignes}" , "${status}",  "${payment_status}", "${user_id}" , "${total}" 
      )`
   );
 

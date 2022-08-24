@@ -100,7 +100,7 @@ router.get("/profile/login/:login", async function (req, res, next) {
     
     res.json(await users.getOneLogin(req.query.page , req.params.login));
   } catch (err) {
-    console.error(`Error while getting users  `, err.message);
+    console.error(`Error while getting user profile `, err.message);
     next(err);
   }
 });

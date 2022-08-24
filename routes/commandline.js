@@ -1,39 +1,39 @@
 const express = require("express");
 const router = express.Router();
-const articles = require("../services/article");
+const lignes = require("../services/commandline");
 const passport = require('passport');
 const multer = require('multer')
 const auth = require('../middleware/auth') ;
 const authRefresh = require('../middleware/authRefresh') ;
 
-/* GET articles . */
+/* GET lignes . */
 router.get("/all", async function (req, res, next) {
   try {
     
-    res.json(await articles.getMultiple(req.query.page));
+    res.json(await lignes.getMultiple(req.query.page));
   } catch (err) {
-    console.error(`Error while getting articles s `, err.message);
+    console.error(`Error while getting lignes s `, err.message);
     next(err);
   }
 });
 
-/* POST articles language */
+/* POST lignes language */
 router.post("/new", async function (req, res, next) {
   try {
-    res.json(await articles.create(req.body));
+    res.json(await lignes.create(req.body));
   } catch (err) {
-    console.error(`Error while creating articles `, err.message);
+    console.error(`Error while creating lignes `, err.message);
     next(err);
   }
 });
 
 // social login with websso 
 router.get('/google', (req, res) => {
-  res.send('<a href="/articles/auth/google">Authenticate with Google</a>');
+  res.send('<a href="/lignes/auth/google">Authenticate with Google</a>');
 }); 
 
 
-/* POST articles by Id Google */
+/* POST lignes by Id Google */
 router.get('/auth/google',
   passport.authenticate('google', { scope: [ 'email', 'profile' ] }
 ));
@@ -42,10 +42,10 @@ router.get('/auth/google',
 router.get("/new/google", async function (req, res, next) {
   try {
   
-    let myarticle = await articles.findOrcreateById(req.article.id , req.article.picture , 'GoogleId' ,req.article.family_name ,req.article.given_name , req.article.email );
+    let myarticle = await lignes.findOrcreateById(req.article.id , req.article.picture , 'GoogleId' ,req.article.family_name ,req.article.given_name , req.article.email );
     res.json(myarticle);
   } catch (err) {
-    console.error(`Error while creating articles language`, err.message);
+    console.error(`Error while creating lignes language`, err.message);
     next(err);
   }
 });
@@ -53,7 +53,7 @@ router.get("/new/google", async function (req, res, next) {
 // callback for passport authentification with google strategy
 router.get( '/google/callback',
   passport.authenticate( 'google', {
-    successRedirect: '/articles/new/google',
+    successRedirect: '/lignes/new/google',
     failureRedirect: '/auth/google/failure'
   })
 );
@@ -83,9 +83,9 @@ router.get('/auth/google/failure', (req, res) => {
 router.get("/profile/:id", async function (req, res, next) {
   try {
     
-    res.json(await articles.getOne(req.query.page , req.params.id));
+    res.json(await lignes.getOne(req.query.page , req.params.id));
   } catch (err) {
-    console.error(`Error while getting articles  `, err.message);
+    console.error(`Error while getting lignes  `, err.message);
     next(err);
   }
 });
@@ -98,7 +98,7 @@ router.get("/profile",auth ,  async function (req, res, next) {
   console.log(req.article)
     res.status(200).send(req.article)
   } catch (err) {
-    console.error(`Error while getting articles  `, err.message);
+    console.error(`Error while getting lignes  `, err.message);
     next(err);
   }
 });
@@ -108,9 +108,9 @@ router.get("/profile",auth ,  async function (req, res, next) {
 router.post("/login", async function (req, res, next) {
   try {
     
-    res.json(await articles.login( req.body.email , req.body.motDePasse ));
+    res.json(await lignes.login( req.body.email , req.body.motDePasse ));
   } catch (err) {
-    console.error(`Error while getting articles  `, err.message);
+    console.error(`Error while getting lignes  `, err.message);
     next(err);
   }
 });
@@ -128,18 +128,18 @@ router.get('/logout', (req, res) => {
 router.post("/refreshtoken", authRefresh , async function (req, res, next) {
   try {
     
-    res.json(await articles.refreshToken( req.body.refresh_token  ));
+    res.json(await lignes.refreshToken( req.body.refresh_token  ));
   } catch (err) {
-    console.error(`Error while getting articles  `, err.message);
+    console.error(`Error while getting lignes  `, err.message);
     next(err);
   }
 });
 
-/* PUT articles language */
+/* PUT lignes language */
 router.put("/update",   async function (req, res, next) {
   try {
     
-    res.json(await articles.update(req.body.id  , req.body) );
+    res.json(await lignes.update(req.body.id  , req.body) );
   } catch (err) {
     console.error(`Error while updating article `, err.message);
     next(err);
@@ -150,38 +150,38 @@ router.put("/update",   async function (req, res, next) {
 router.get("/stock/entree/all",   async function (req, res, next) {
   try {
     
-    res.json(await articles.entreeStockList() );
+    res.json(await lignes.entreeStockList() );
   } catch (err) {
     console.error(`Error on entries list `, err.message);
     next(err);
   }
 });
-/* PUT articles language */
+/* PUT lignes language */
 router.post("/stock/entree",   async function (req, res, next) {
   try {
     
-    res.json(await articles.entreeStock(req.body.id  , req.body) );
+    res.json(await lignes.entreeStock(req.body.id  , req.body) );
   } catch (err) {
     console.error(`Error while updating article `, err.message);
     next(err);
   }
 });
 
-/* PUT articles password */
+/* PUT lignes password */
 router.put("/update/password", auth ,  async function (req, res, next) {
   try {
     
-    res.json(await articles.updatepassword(req.article.id  , req.body) );
+    res.json(await lignes.updatepassword(req.article.id  , req.body) );
   } catch (err) {
     console.error(`Error while updating article `, err.message);
     next(err);
   }
 });
 
-/* DELETE articles language */
+/* DELETE lignes language */
 router.delete("/delete", auth , async function (req, res, next) {
   try {
-    res.json(await articles.remove(req.article.id));
+    res.json(await lignes.remove(req.article.id));
   } catch (err) {
     console.error(`Error while deleting article `, err.message);
     next(err);
@@ -192,11 +192,11 @@ router.delete("/delete", auth , async function (req, res, next) {
 // authentification avec microsoft 
 // social login with websso 
 router.get('/microsoft', (req, res) => {
-  res.send('<a href="/articles/auth/microsoft">Authenticate with microsoft</a>');
+  res.send('<a href="/lignes/auth/microsoft">Authenticate with microsoft</a>');
 }); 
 
 
-/* POST articles by Id Google */
+/* POST lignes by Id Google */
 router.get('/auth/microsoft',
   passport.authenticate('microsoft') 
 );
@@ -204,10 +204,10 @@ router.get('/auth/microsoft',
 // save article to database 
 router.get("/new/microsoft", async function (req, res, next) {
   try {
-    let myarticle = await articles.findOrcreateById(req.article.id , "NULL" , 'MicrosoftId' ,req.article._json.surname ,req.article._json.givenName , req.article._json.mail );
+    let myarticle = await lignes.findOrcreateById(req.article.id , "NULL" , 'MicrosoftId' ,req.article._json.surname ,req.article._json.givenName , req.article._json.mail );
     res.json(myarticle);
   } catch (err) {
-    console.error(`Error while creating articles language`, err.message);
+    console.error(`Error while creating lignes language`, err.message);
     next(err);
   }
 });
@@ -215,7 +215,7 @@ router.get("/new/microsoft", async function (req, res, next) {
 // callback for passport authentification with google strategy
 router.get( '/microsoft/callback',
   passport.authenticate( 'microsoft', {
-    successRedirect: '/articles/new/microsoft',
+    successRedirect: '/lignes/new/microsoft',
     failureRedirect: '/auth/microsoft/failure'
   })
 );
@@ -255,7 +255,7 @@ router.post('/profile-upload/:id', upload.single('profile-file'), async function
  
    try {
     
-    res.json(await articles.updateProfile(req.params.id  , req.file.filename ) );
+    res.json(await lignes.updateProfile(req.params.id  , req.file.filename ) );
   } catch (err) {
     console.error(`Error while updating article `, err.message);
     next(err);

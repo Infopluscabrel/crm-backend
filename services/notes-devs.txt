@@ -1,8 +1,0 @@
- 
- - enregistrer tous type de user ( avec l'id de leur parent)
-
- - lister les user distributeurs 
-
- -lister les user client 1 d'un distributeur 
-
- - lister les users clients  2 d'un client 1

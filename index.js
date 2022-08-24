@@ -24,6 +24,10 @@ function isLoggedIn(req, res, next) {
 
 const user = require("./routes/user") ; 
 const article = require("./routes/article") ; 
+const vente = require("./routes/vente") ;
+const ligneCommande = require("./routes/commandline") ;
+const commande = require("./routes/commande") ;
+
 app.use(express.json());
 app.use(
   express.urlencoded({
@@ -40,7 +44,10 @@ app.use(passport.session());
 /* Error handler middleware */
 app.use("/user", user );
 app.use("/article", article );
-app.use("/commande", article );
+app.use("/vente", vente );
+app.use("/lignecommande", ligneCommande );
+app.use("/commande", commande );
+
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

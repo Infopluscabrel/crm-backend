@@ -13,7 +13,7 @@ async function getMultiple(page = 1) {
   const offset = helper.getOffset(page, config.listPerPage);
   const rows = await db.query(
     `SELECT *
-    FROM produit  LIMIT ${offset},${config.listPerPage}`
+    FROM ligne_commande  LIMIT ${offset},${config.listPerPage}`
   );
   const data = helper.emptyOrRows(rows);
   const meta = { page };
@@ -28,8 +28,8 @@ async function getOne(page = 1, id) {
   const offset = helper.getOffset(page, config.listPerPage);
   const rows = await db.query(
     `SELECT  *
-     from produit 
-    where produit.ID_PRODUIT="${id}"  `
+     from ligne_commande 
+    where ligne_commande.id="${id}"  `
   );
   const data = helper.emptyOrRows(rows);
   const meta = { page };
@@ -59,7 +59,7 @@ async function getOneIdToken(id, token) {
   if (data.length != 0) {
     console.log("service data " + data);
   } else {
-    console.log("produit don t exist")
+    console.log("ligne don t exist")
   }
   //const meta = { page };
 
@@ -90,7 +90,7 @@ async function getOneIdRefreshToken(id, token) {
   if (data.length != 0) {
     console.log("service data " + data);
   } else {
-    console.log("produit don t exist")
+    console.log("ligne don t exist")
   }
   //const meta = { page };
   
@@ -102,8 +102,8 @@ async function getOneIdRefreshToken(id, token) {
 }
 
 async function login(email, password) {
-  let produitToken;
-  let produitRefresh;
+  let ligneToken;
+  let ligneRefresh;
 
   await validateEmail(email);
 
@@ -122,7 +122,7 @@ async function login(email, password) {
   if (data.length != 0) {
 
     if(data[0].password == null ){
-      return "produit must login with Web SSO "
+      return "ligne must login with Web SSO "
     }
 
   const isMatch = await bcrypt.compare(password, data[0].password)
@@ -142,7 +142,7 @@ set token = "${token}"
 where id= "${data[0].id}" `
       );
 
-      produitToken = token;
+      ligneToken = token;
     }
 
     );
@@ -154,21 +154,21 @@ where id= "${data[0].id}" `
               set refresh_token = "${rtoken}"
               where id= "${data[0].id}" `
       );
-      produitRefresh = rtoken;
+      ligneRefresh = rtoken;
     });
 
 
 
   } else {
-    return "produit don't exist ";
+    return "ligne don't exist ";
   }
 
 
 
   return {
     data,
-    produitToken,
-    produitRefresh
+    ligneToken,
+    ligneRefresh
 
   };
 }
@@ -210,7 +210,7 @@ where id= "${data[0].id}" `
 
 
   } else {
-    return "produit don't exist ";
+    return "ligne don't exist ";
   }
 
 
@@ -221,20 +221,20 @@ where id= "${data[0].id}" `
   };
 }
 
-async function generateAuthToken(produit) {
+async function generateAuthToken(ligne) {
 
 
   tokensecret = process.env.secretToken || "12345"
-  const token = jwt.sign({ id: produit.id }, tokensecret, { expiresIn: 60 * 60 })
+  const token = jwt.sign({ id: ligne.id }, tokensecret, { expiresIn: 60 * 60 })
 
-  produit.token = token
+  ligne.token = token
 
 
-  // update produit table 
+  // update ligne table 
   const saveTOken = await db.query(
     `UPDATE utilisateur
 set token = "${token}"
-where id= "${produit.id}" `
+where id= "${ligne.id}" `
   );
 
 
@@ -243,20 +243,20 @@ where id= "${produit.id}" `
   return token
 }
 
-async function generateRefreshToken(produit) {
+async function generateRefreshToken(ligne) {
 
 
   tokensecret = process.env.RefreshsecretToken || "12345"
-  const rtoken = jwt.sign({ id: produit.id }, tokensecret, { expiresIn: 60 * 60 * 20 })
+  const rtoken = jwt.sign({ id: ligne.id }, tokensecret, { expiresIn: 60 * 60 * 20 })
 
-  produit.refresh_token = rtoken
+  ligne.refresh_token = rtoken
 
 
-  // update produit table 
+  // update ligne table 
   const saveTOken = await db.query(
     `UPDATE utilisateur
 set refresh_token = "${rtoken}"
-where id= "${produit.id}" `
+where id= "${ligne.id}" `
   );
 
 
@@ -265,28 +265,28 @@ where id= "${produit.id}" `
   return rtoken
 }
 
-async function create(produit) {
+async function create(ligne) {
 
 
 
- let nom = produit.nom || "" ;
- let prix = produit.prix || ""  ;
- let quantite = produit.quantite || "" ;
- let proprietaire = produit.proprietaire || ""  ; 
+ let id_produit = ligne.id_produit || "" ;
+ 
+ let quantite = ligne.quantite || "" ;
+ let id_vente = ligne.id_vente || "" ;
  
  
   const result = await db.query(
-    `INSERT INTO produit 
-    (  NOM_PRODUIT , prix , QUANTITE ,  PROPRIETAIRE   )
+    `INSERT INTO ligne_commande 
+    (  id_produit , quantite  ,id_vente  )
     VALUES 
-    ( "${nom}", "${prix}", "${quantite}" , "${proprietaire}" 
+    ( "${id_produit}", "${quantite}" , "${id_vente}" 
      )`
   );
 
-  let message = "Error in creating produit";
+  let message = "Error in creating ligne";
 
   if (result.affectedRows) {
-    message = "produit  created successfully";
+    message = "ligne  created successfully";
   }
 
   return { message };
@@ -311,17 +311,17 @@ async function findOrcreateById(id, picture = "", mode, nom = "", prenom = "", e
     ("${id}" , "${picture}" , "${mode}" , 2 , "${nom}" , "${prenom}", "${email}"   )`
     );
 
-    let message = "Error in creating produit";
+    let message = "Error in creating ligne";
 
     if (result.affectedRows) {
-      message = "produit  created successfully";
+      message = "ligne  created successfully";
     }
 
     return { message };
 
   } else {
 
-    let message = "produit exist in database";
+    let message = "ligne exist in database";
     return { message };
   }
 
@@ -329,35 +329,35 @@ async function findOrcreateById(id, picture = "", mode, nom = "", prenom = "", e
 
 }
 
-async function update(id, produit) {
+async function update(id, ligne) {
 
   const result = await db.query(
-    `UPDATE produit
-    SET NOM_PRODUIT="${produit.nom}", prix="${produit.prix}", QUANTITE="${produit.quantite}"
+    `UPDATE ligne
+    SET NOM_ligne="${ligne.nom}", prix="${ligne.prix}", QUANTITE="${ligne.quantite}"
     
-    WHERE ID_PRODUIT="${id}"`
+    WHERE ID_ligne="${id}"`
   );
 
   let message = "Error in updating product language";
 
   if (result.affectedRows) {
-    message = "produit updated successfully";
+    message = "ligne updated successfully";
   }
 
   return { message };
 }
 
-async function entreeStock(id, produit) {
+async function entreeStock(id, ligne) {
 
   const result = await db.query(
-    `UPDATE produit
-    SET  QUANTITE=produit.QUANTITE + "${produit.quantite}"
+    `UPDATE ligne
+    SET  QUANTITE=ligne.QUANTITE + "${ligne.quantite}"
     
-    WHERE ID_PRODUIT="${id}"`
+    WHERE ID_ligne="${id}"`
   );
 
    const entree = await db.query(
-    `INSERT INTO entreestock( id_produit, quantite) VALUES ( "${produit.id}"  , "${produit.quantite}" )`
+    `INSERT INTO entreestock( id_ligne, quantite) VALUES ( "${ligne.id}"  , "${ligne.quantite}" )`
   );
   let message = "Erreur lors de l'entree en stocks ";
 
@@ -368,13 +368,13 @@ async function entreeStock(id, produit) {
   return { message };
 }
 
-async function entreeStockList(id, produit, page = 1) {
+async function entreeStockList(id, ligne, page = 1) {
 const offset = helper.getOffset(page, config.listPerPage);
   const rows = await db.query(
-    `SELECT id , entreestock.id_produit ,entreestock.quantite ,NOM_PRODUIT
-    FROM entreestock , produit  
+    `SELECT id , entreestock.id_ligne ,entreestock.quantite ,NOM_ligne
+    FROM entreestock , ligne  
     
-    where produit.ID_PRODUIT=entreestock.id_produit
+    where ligne.ID_ligne=entreestock.id_ligne
     LIMIT ${offset},${config.listPerPage}`
   );
   const data = helper.emptyOrRows(rows);
@@ -386,9 +386,9 @@ const offset = helper.getOffset(page, config.listPerPage);
   };
 }
 
-async function updatepassword(id, produit) {
+async function updatepassword(id, ligne) {
 
-  let password = await bcrypt.hash(produit.motDePasse, 8);
+  let password = await bcrypt.hash(ligne.motDePasse, 8);
   const result = await db.query(
     `UPDATE utilisateur
     SET password="${password}"
@@ -398,7 +398,7 @@ async function updatepassword(id, produit) {
   let message = "Error in updating programming language";
 
   if (result.affectedRows) {
-    message = "produit password updated successfully";
+    message = "ligne password updated successfully";
   }
 
   return { message };
@@ -409,10 +409,10 @@ async function remove(id) {
     `DELETE FROM utilisateur  WHERE id=${id}`
   );
 
-  let message = "Error in deleting  produit ";
+  let message = "Error in deleting  ligne ";
 
   if (result.affectedRows) {
-    message = "produit  deleted successfully";
+    message = "ligne  deleted successfully";
   }
 
   return { message };
@@ -431,7 +431,7 @@ let link = url+ "/uploads/"+name;
   let message = "Error in updating image profile ";
 
   if (result.affectedRows) {
-    message = "produit profile image updated successfully";
+    message = "ligne profile image updated successfully";
   }
 
   return { message , link };
