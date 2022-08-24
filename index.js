@@ -40,6 +40,8 @@ app.use(passport.session());
 /* Error handler middleware */
 app.use("/user", user );
 app.use("/article", article );
+app.use("/commande", article );
+
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   console.error(err.message, err.stack)

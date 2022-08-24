@@ -95,6 +95,16 @@ router.get("/profile/:id", async function (req, res, next) {
   }
 });
 
+router.get("/profile/login/:login", async function (req, res, next) {
+  try {
+    
+    res.json(await users.getOneLogin(req.query.page , req.params.login));
+  } catch (err) {
+    console.error(`Error while getting users  `, err.message);
+    next(err);
+  }
+});
+
 //get profile of a user 
 
 router.get("/profile",auth ,  async function (req, res, next) {

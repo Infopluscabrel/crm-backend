@@ -40,6 +40,22 @@ async function getOne(page = 1, id) {
   };
 }
 
+async function getOneLogin(page = 1, id) {
+  const offset = helper.getOffset(page, config.listPerPage);
+  const rows = await db.query(
+    `SELECT  *
+     from user ,roles
+    where user.LOGIN="${id}" and roles.ID_ROLE=user.ID_ROLE `
+  );
+  const data = helper.emptyOrRows(rows);
+  const meta = { page };
+
+  return {
+    data,
+
+  };
+}
+
 async function getOneIdToken(id, token) {
   let page = 1;
   let quer = `SELECT  
@@ -473,5 +489,6 @@ module.exports = {
   getOneIdRefreshToken,
   updatepassword,
   updateProfile,
+  getOneLogin
 
 };
