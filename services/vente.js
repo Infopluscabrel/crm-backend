@@ -385,24 +385,61 @@ const offset = helper.getOffset(page, config.listPerPage);
     meta,
   };
 }
+ 
+  async function validateStock ( command) {
+      const result = await db.query(
+      `UPDATE vente
+      SET  status=1 
+      
+      WHERE id="${command.id}"`
+    );
 
-async function updatepassword(id, produit) {
 
-  let password = await bcrypt.hash(produit.motDePasse, 8);
-  const result = await db.query(
-    `UPDATE utilisateur
-    SET password="${password}"
-    WHERE id="${id}"`
+    // liste des lignes de la commande 
+        const rows = await db.query(
+    `SELECT id_vente
+    from ligne_commande
+    where ligne_commande.id_vente="${command.id}"
+    `
   );
+  const data = helper.emptyOrRows(rows);
 
-  let message = "Error in updating programming language";
+  console.log(data) ;
+    // appliquer la reduction des qtes pour chaque ligne de commande
+    let i ;
+  for ( i = 0 ; i<=data.length ; i++ ) {
 
-  if (result.affectedRows) {
-    message = "produit password updated successfully";
+        const result = await db.query(
+      `UPDATE produit , ligne_commande 
+
+      SET  produit.QUANTITE = produit.QUANTITE - "${data[i].quantite}"
+      WHERE ligne_commande.id_produit=produit.ID_PRODUIT
+      AND produit.PROPRIETAIRE="${command.parrain}"  `
+    );
+
+     let message = "Erreur lors de l'entree en stocks ";
+
+    if (result.affectedRows) {
+      message = "entree executed successfully";
+    }
+
+    return { message };
+
   }
 
-  return { message };
-}
+    const entree = await db.query(
+      `INSERT INTO entreestock( id_produit, quantite) VALUES ( "${produit.id}"  , "${produit.quantite}" )`
+    );
+    let message = "Erreur lors de l'entree en stocks ";
+
+    if (result.affectedRows) {
+      message = "entree executed successfully";
+    }
+
+    return { message };
+  }
+
+
 
 async function remove(id) {
   const result = await db.query(
@@ -419,23 +456,7 @@ async function remove(id) {
 }
 
 // update umage profile 
-async function updateProfile(id, name) {
-let url = process.env.url || "http://localhost:5000"  ;
-let link = url+ "/uploads/"+name; 
-  const result = await db.query(
-    `UPDATE utilisateur
-    SET image="${link}"
-    WHERE id="${id}"`
-  );
 
-  let message = "Error in updating image profile ";
-
-  if (result.affectedRows) {
-    message = "produit profile image updated successfully";
-  }
-
-  return { message , link };
-}
 // validation d'email
 function validateEmail(value) {
   if (!validator.isEmail(value)) {
@@ -454,9 +475,9 @@ module.exports = {
   getOneIdToken,
   refreshToken,
   getOneIdRefreshToken,
-  updatepassword,
-  updateProfile,
+
   entreeStock,
-  entreeStockList
+  entreeStockList ,
+  validateStock
 
 };

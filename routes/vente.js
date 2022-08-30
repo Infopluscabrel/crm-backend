@@ -27,55 +27,15 @@ router.post("/new", async function (req, res, next) {
   }
 });
 
-// social login with websso 
-router.get('/google', (req, res) => {
-  res.send('<a href="/ventes/auth/google">Authenticate with Google</a>');
-}); 
-
-
-/* POST ventes by Id Google */
-router.get('/auth/google',
-  passport.authenticate('google', { scope: [ 'email', 'profile' ] }
-));
-
-// save vente to database 
-router.get("/new/google", async function (req, res, next) {
+/* POST Valider une commande */
+router.post("/valider", async function (req, res, next) {
   try {
-  
-    let myvente = await ventes.findOrcreateById(req.vente.id , req.vente.picture , 'GoogleId' ,req.vente.family_name ,req.vente.given_name , req.vente.email );
-    res.json(myvente);
+    res.json(await ventes.validateStock(req.body));
   } catch (err) {
-    console.error(`Error while creating ventes language`, err.message);
+    console.error(`Error while creating ventes `, err.message);
     next(err);
   }
 });
-
-// callback for passport authentification with google strategy
-router.get( '/google/callback',
-  passport.authenticate( 'google', {
-    successRedirect: '/ventes/new/google',
-    failureRedirect: '/auth/google/failure'
-  })
-);
-
-
-// Authentificated correctly with google 
-
-router.get('/protected', (req, res) => {
-  
-   res.json({
-      success: true , 
-      modeLogin:"google"
-    } , 
-    req.vente );
-});
-
-// when Authentification fail 
-router.get('/auth/google/failure', (req, res) => {
-  res.send('Failed to authenticate..');
-});
-
-
 
 
 //get profile of a vente 
@@ -103,37 +63,7 @@ router.get("/profile",auth ,  async function (req, res, next) {
   }
 });
 
-// Login
 
-router.post("/login", async function (req, res, next) {
-  try {
-    
-    res.json(await ventes.login( req.body.email , req.body.motDePasse ));
-  } catch (err) {
-    console.error(`Error while getting ventes  `, err.message);
-    next(err);
-  }
-});
-
-
-//vente logout 
-router.get('/logout', (req, res) => {
-  req.logout();
-  req.session.destroy();
-  res.send('Goodbye!');
-});
-
-// refresh-token
-
-router.post("/refreshtoken", authRefresh , async function (req, res, next) {
-  try {
-    
-    res.json(await ventes.refreshToken( req.body.refresh_token  ));
-  } catch (err) {
-    console.error(`Error while getting ventes  `, err.message);
-    next(err);
-  }
-});
 
 /* PUT ventes language */
 router.put("/update",   async function (req, res, next) {
@@ -189,53 +119,6 @@ router.delete("/delete", auth , async function (req, res, next) {
 });
 
 
-// authentification avec microsoft 
-// social login with websso 
-router.get('/microsoft', (req, res) => {
-  res.send('<a href="/ventes/auth/microsoft">Authenticate with microsoft</a>');
-}); 
-
-
-/* POST ventes by Id Google */
-router.get('/auth/microsoft',
-  passport.authenticate('microsoft') 
-);
-
-// save vente to database 
-router.get("/new/microsoft", async function (req, res, next) {
-  try {
-    let myvente = await ventes.findOrcreateById(req.vente.id , "NULL" , 'MicrosoftId' ,req.vente._json.surname ,req.vente._json.givenName , req.vente._json.mail );
-    res.json(myvente);
-  } catch (err) {
-    console.error(`Error while creating ventes language`, err.message);
-    next(err);
-  }
-});
-
-// callback for passport authentification with google strategy
-router.get( '/microsoft/callback',
-  passport.authenticate( 'microsoft', {
-    successRedirect: '/ventes/new/microsoft',
-    failureRedirect: '/auth/microsoft/failure'
-  })
-);
-
-
-// Authentificated correctly with google 
-
-router.get('/protected', (req, res) => {
-  
-   res.json({
-      success: true , 
-      modeLogin:"google"
-    } , 
-    req.vente );
-});
-
-// when Authentification fail 
-router.get('/auth/microsoft/failure', (req, res) => {
-  res.send('Failed to authenticate..');
-});
 
 // upload image profile 
 let storage = multer.diskStorage({
