@@ -10,6 +10,7 @@ const validator = require('validator');
 
 
 async function getMultiple(page = 1) {
+  console.log("GETTING ALL LINES ")
   const offset = helper.getOffset(page, config.listPerPage);
   const rows = await db.query(
     `SELECT *

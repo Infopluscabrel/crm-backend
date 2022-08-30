@@ -48,6 +48,8 @@ app.use("/vente", vente );
 app.use("/lignecommande", ligneCommande );
 app.use("/commande", commande );
 
+// app.use("/facture", facture );
+
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

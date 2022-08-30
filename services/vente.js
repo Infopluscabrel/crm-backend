@@ -397,45 +397,34 @@ const offset = helper.getOffset(page, config.listPerPage);
 
     // liste des lignes de la commande 
         const rows = await db.query(
-    `SELECT id_vente
+    `SELECT *
     from ligne_commande
     where ligne_commande.id_vente="${command.id}"
     `
   );
+
+  let message ;
   const data = helper.emptyOrRows(rows);
-
-  console.log(data) ;
-    // appliquer la reduction des qtes pour chaque ligne de commande
-    let i ;
-  for ( i = 0 ; i<=data.length ; i++ ) {
-
-        const result = await db.query(
+ data.forEach(e => {
+     
+    
+        const result =  db.query(
       `UPDATE produit , ligne_commande 
 
-      SET  produit.QUANTITE = produit.QUANTITE - "${data[i].quantite}"
-      WHERE ligne_commande.id_produit=produit.ID_PRODUIT
-      AND produit.PROPRIETAIRE="${command.parrain}"  `
+      SET  produit.QUANTITE = produit.QUANTITE - "${e.quantite}"
+      WHERE produit.ID_PRODUIT = "${e.id_produit}"
+       `
     );
 
-     let message = "Erreur lors de l'entree en stocks ";
+     // message = "Erreur lors de l'entree en stocks ";
 
     if (result.affectedRows) {
-      message = "entree executed successfully";
+       message = "Commande valide avec succes ";
     }
 
-    return { message };
-
-  }
-
-    const entree = await db.query(
-      `INSERT INTO entreestock( id_produit, quantite) VALUES ( "${produit.id}"  , "${produit.quantite}" )`
-    );
-    let message = "Erreur lors de l'entree en stocks ";
-
-    if (result.affectedRows) {
-      message = "entree executed successfully";
-    }
-
+   
+ })
+ 
     return { message };
   }
 
