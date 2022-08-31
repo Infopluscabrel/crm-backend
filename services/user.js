@@ -123,8 +123,6 @@ async function login(login, password) {
   let UserToken;
   //let userRefresh;
 
- 
-
 
   const rows = await db.query(
     `SELECT * 

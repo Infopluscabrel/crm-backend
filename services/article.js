@@ -160,7 +160,7 @@ where id= "${data[0].id}" `
 
 
   } else {
-    return "produit don't exist ";
+    return "product don't exist ";
   }
 
 

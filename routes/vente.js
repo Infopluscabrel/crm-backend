@@ -50,18 +50,7 @@ router.get("/profile/:id", async function (req, res, next) {
   }
 });
 
-//get profile of a vente 
 
-router.get("/profile",auth ,  async function (req, res, next) {
-  try {
-    
-  console.log(req.vente)
-    res.status(200).send(req.vente)
-  } catch (err) {
-    console.error(`Error while getting ventes  `, err.message);
-    next(err);
-  }
-});
 
 
 

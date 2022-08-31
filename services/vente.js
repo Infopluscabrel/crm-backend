@@ -282,11 +282,11 @@ async function create(produit) {
     ( "${lignes}" , "${status}",  "${payment_status}", "${user_id}" , "${total}" 
      )`
   );
-
-  let message = "Error in creating produit";
+ 
+  let message = "Error in creating vente";
 
   if (result.affectedRows) {
-    message = "produit  created successfully";
+    message = "vente  created successfully";
   }
 
   return { message };
@@ -417,6 +417,9 @@ const offset = helper.getOffset(page, config.listPerPage);
     );
 
      // message = "Erreur lors de l'entree en stocks ";
+
+     // Incrementer les produit concerner et qtes dans le stocks du user 
+
 
     if (result.affectedRows) {
        message = "Commande valide avec succes ";
