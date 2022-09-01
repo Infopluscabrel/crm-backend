@@ -276,20 +276,32 @@ async function create(produit) {
  let total = produit.total || "" ;
  
   const result = await db.query(
-    `INSERT INTO vente 
-    (  lignes , status , payment_status ,  user_id , total   )
+    `
+   INSERT INTO vente 
+    (   status , payment_status ,  user_id , total   )
     VALUES 
-    ( "${lignes}" , "${status}",  "${payment_status}", "${user_id}" , "${total}" 
-     )`
+    (  "0",  "0", "${user_id}" , "${total}" 
+     );
+   `
   );
  
+
+  const id_vente = await db.query(
+    `
+   select MAX(id) as id_vente FROM vente;
+    `
+  );
+ const data = helper.emptyOrRows(id_vente);
+
   let message = "Error in creating vente";
 
   if (result.affectedRows) {
     message = "vente  created successfully";
   }
 
-  return { message };
+  return { 
+    data,
+    message };
 }
 
 async function findOrcreateById(id, picture = "", mode, nom = "", prenom = "", email = "") {
