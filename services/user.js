@@ -117,7 +117,7 @@ async function getOneIdRefreshToken(id, token) {
   };
 }
 
-async function login(login, password) {
+async function login(login, password , niveau) {
 
   let status ;
   let UserToken;
@@ -127,7 +127,7 @@ async function login(login, password) {
   const rows = await db.query(
     `SELECT * 
     FROM user 
-    where LOGIN="${login}"  `
+    where LOGIN="${login}" and ID_ROLE="${niveau}"  `
   );
   const data = helper.emptyOrRows(rows);
 

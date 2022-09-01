@@ -120,10 +120,30 @@ router.get("/profile",auth ,  async function (req, res, next) {
 
 // Login
 
-router.post("/login", async function (req, res, next) {
+router.post("/login/detaillant", async function (req, res, next) {
   try {
     
-    res.json(await users.login( req.body.login , req.body.password ));
+    res.json(await users.login( req.body.login , req.body.password  , 3));
+  } catch (err) {
+    console.error(`Error while getting users  `, err.message);
+    next(err);
+  }
+});
+
+router.post("/login/distributeur", async function (req, res, next) {
+  try {
+    
+    res.json(await users.login( req.body.login , req.body.password , 1));
+  } catch (err) {
+    console.error(`Error while getting users  `, err.message);
+    next(err);
+  }
+});
+
+router.post("/login/grossiste", async function (req, res, next) {
+  try {
+    
+    res.json(await users.login( req.body.login , req.body.password , 2));
   } catch (err) {
     console.error(`Error while getting users  `, err.message);
     next(err);
