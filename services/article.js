@@ -373,13 +373,14 @@ async function entreeStock(id, produit) {
   return { message };
 }
 
-async function entreeStockList(id, produit, page = 1) {
+async function entreeStockList( produit, page = 1) {
 const offset = helper.getOffset(page, config.listPerPage);
   const rows = await db.query(
     `SELECT id , entreestock.id_produit ,entreestock.quantite ,NOM_PRODUIT
     FROM entreestock , produit  
     
     where produit.ID_PRODUIT=entreestock.id_produit
+    and  entreestock.proprietaire="${produit.proprietaire}"
     LIMIT ${offset},${config.listPerPage}`
   );
   const data = helper.emptyOrRows(rows);

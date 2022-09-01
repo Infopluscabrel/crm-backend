@@ -150,7 +150,7 @@ router.put("/update",   async function (req, res, next) {
 router.get("/stock/entree/all",   async function (req, res, next) {
   try {
     
-    res.json(await articles.entreeStockList() );
+    res.json(await articles.entreeStockList(req.body) );
   } catch (err) {
     console.error(`Error on entries list `, err.message);
     next(err);
