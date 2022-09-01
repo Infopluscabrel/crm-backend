@@ -362,7 +362,7 @@ async function entreeStock(id, produit) {
   );
 
    const entree = await db.query(
-    `INSERT INTO entreestock( id_produit, quantite) VALUES ( "${produit.id}"  , "${produit.quantite}" )`
+    `INSERT INTO entreestock( id_produit, quantite , proprietaire ) VALUES ( "${produit.id}"  , "${produit.quantite}" , "${produit.proprietaire}" )`
   );
   let message = "Erreur lors de l'entree en stocks ";
 

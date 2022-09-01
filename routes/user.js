@@ -21,9 +21,7 @@ router.get("/all", async function (req, res, next) {
 router.post("/new", async function (req, res, next) {
   try {
    
-     console.log("telephone  =  " + req.body.telephone   ) ; 
-     
-         console.log("email  =  " + req.body.email   ) ; 
+    
 
     res.json(await users.create(req.body));
   } catch (err) {

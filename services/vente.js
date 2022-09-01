@@ -398,7 +398,8 @@ const offset = helper.getOffset(page, config.listPerPage);
   };
 }
  
-  async function validateStock ( command) {
+
+async function validateStock ( command) {
       const result = await db.query(
       `UPDATE vente
       SET  status=1 
@@ -419,27 +420,29 @@ const offset = helper.getOffset(page, config.listPerPage);
   const data = helper.emptyOrRows(rows);
  data.forEach(e => {
      
-    
+   
         const result =  db.query(
       `UPDATE produit , ligne_commande 
-
-      SET  produit.QUANTITE = produit.QUANTITE - "${e.quantite}"
+      SET  produit.QUANTITE = produit.QUANTITE - "${e.quantite}" , produit.qte_grossiste = produit.qte_grossiste + "${e.quantite}"
       WHERE produit.ID_PRODUIT = "${e.id_produit}"
        `
     );
 
-     // message = "Erreur lors de l'entree en stocks ";
+      message = "Erreur lors de l'entree en stocks ";
 
      // Incrementer les produit concerner et qtes dans le stocks du user 
       
+
+          // appel de fonction de charge du user 
+
            //verifie si le produit extiste 
-            const fouille =  db.query(
+          /* const fouille =  db.query(
     `SELECT *
     FROM produit 
     WHERE  ID_PRODUIT="${e.id_produit}
      
     "
-    LIMIT ${offset},${config.listPerPage}
+    
     
     `
   );
@@ -448,6 +451,111 @@ const offset = helper.getOffset(page, config.listPerPage);
   if(r1==[]) {
 
    const donnees = helper.emptyOrRows(fouille)
+
+    const creation =  db.query(
+    `INSERT INTO produit 
+    (  NOM_PRODUIT , prix , QUANTITE ,  PROPRIETAIRE   )
+    VALUES 
+    ( "${donnees.NOM_PRODUIT}", "${donnees.prix}", "${qte}" , "${command.user_id}" 
+     )`
+
+  );
+  } else {
+       const result =  db.query(
+      `UPDATE produit  
+      SET  produit.QUANTITE = produit.QUANTITE + "${e.quantite}"
+      WHERE produit.ID_PRODUIT = "${e.id_produit}"
+       `
+    );
+  }
+           */
+
+    if (result.affectedRows) {
+       message = "Commande valide avec succes ";
+    }
+
+   
+ })
+ 
+    return { message };
+  }
+
+
+/*  
+async function validateStock ( command) {
+      const result = await db.query(
+      `UPDATE vente
+      SET  status=1 
+      
+      WHERE id="${command.id}"`
+    );
+
+
+    // liste des lignes de la commande 
+
+    
+        const rows = await db.query(
+    `SELECT *
+    from ligne_commande
+    where ligne_commande.id_vente="${command.id}"
+    `
+  );
+
+  let message ;
+  const data = helper.emptyOrRows(rows);
+  console.log("liste des lignes ")
+          console.log(data.length)
+  console.log("fin des lignes ")
+let e  = data[1] ;
+//return e;
+console.log( "data[0" + data[0]) ;
+  // essaie for 
+  /*
+ for (let i = 0 ; i<=data.length ; i++ ) { 
+     
+     e=data[i] ;
+ console.log(" valeur de 0") ;
+    console.log(e) ;
+        const resu =  db.query(
+      `UPDATE produit , ligne_commande 
+
+      SET  produit.QUANTITE = produit.QUANTITE - "${data[i].quantite}"
+      WHERE produit.ID_PRODUIT = "${data[i].id_produit}"
+       `
+    );
+
+     // message = "Erreur lors de l'entree en stocks ";
+
+     // Incrementer les produit concerner et qtes dans le stocks du user 
+      
+           //verifie si le produit extiste 
+
+           console.log(`SELECT *
+    FROM produit 
+    WHERE  ID_PRODUIT="${e.id_produit}"
+     `)   ;        
+       const fouille =  db.query(
+    `SELECT *
+    FROM produit 
+    WHERE  ID_PRODUIT="${e.id_produit}"
+     `
+  );
+
+
+
+  const donnees =  ( helper.emptyOrRows(fouille) ,  (data) => {
+      console.log("voici les donnees  ")
+    console.log(data) 
+  })
+
+  console.log("liste des produits select ")
+          console.log(donnees())
+  console.log("fin des produits ")
+
+  
+  if(donnees==[]) {
+
+   consol
 
     const creation =  db.query(
     `INSERT INTO produit 
@@ -473,11 +581,79 @@ const offset = helper.getOffset(page, config.listPerPage);
     }
 
    
- })
+ } */
+ // end for 
  
+ // essaie forEach 
+ /*
+data.forEach ( e=> {
+      const resu =  db.query(
+      `UPDATE produit , ligne_commande 
+
+      SET  produit.QUANTITE = produit.QUANTITE - "${e.quantite}"
+      WHERE produit.ID_PRODUIT = "${e.id_produit}"
+       `
+    );
+
+     // message = "Erreur lors de l'entree en stocks ";
+
+     // Incrementer les produit concerner et qtes dans le stocks du user 
+      
+           //verifie si le produit extiste 
+
+           console.log(`SELECT *
+    FROM produit 
+    WHERE  ID_PRODUIT="${e.id_produit}"
+     `)   ;        
+       const fouille =  db.query(
+    `SELECT *
+    FROM produit 
+    WHERE  ID_PRODUIT="${e.id_produit}"
+     `
+  );
+
+
+
+  const donnees =   helper.emptyOrRows(fouille) 
+
+  console.log("liste des produits select ")
+          console.log(donnees)
+  console.log("fin des produits ")
+
+  
+  if(donnees==[]) {
+
+
+
+    const creation =  db.query(
+    `INSERT INTO produit 
+    (  NOM_PRODUIT , prix , QUANTITE ,  PROPRIETAIRE   )
+    VALUES 
+    ( "${donnees.NOM_PRODUIT}", "${donnees.prix}", "${e.quantite}" , "${command.user_id}" 
+     )`
+
+  );
+  } else {
+       const result =  db.query(
+      `UPDATE produit  
+
+      SET  produit.QUANTITE = produit.QUANTITE + "${e.quantite}"
+      WHERE produit.ID_PRODUIT = "${e.id_produit}"
+       `
+    );
+  }
+             
+
+    if (result.affectedRows) {
+       message = "Commande valide avec succes ";
+    }
+
+})
+
+
     return { message };
   }
-
+*/
 
 
 async function remove(id) {
