@@ -28,9 +28,19 @@ router.post("/new", async function (req, res, next) {
 });
 
 /* POST Valider une commande */
-router.post("/valider", async function (req, res, next) {
+router.post("/valider/grossiste", async function (req, res, next) {
   try {
     res.json(await ventes.validateStock(req.body));
+  } catch (err) {
+    console.error(`Error while creating ventes `, err.message);
+    next(err);
+  }
+});
+
+/* POST Valider une commande */
+router.post("/valider/detaillant", async function (req, res, next) {
+  try {
+    res.json(await ventes.validateStockDetaillant(req.body));
   } catch (err) {
     console.error(`Error while creating ventes `, err.message);
     next(err);

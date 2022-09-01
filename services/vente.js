@@ -480,7 +480,86 @@ async function validateStock ( command) {
     return { message };
   }
 
+async function validateStockDetaillant ( command) {
+      const result = await db.query(
+      `UPDATE vente
+      SET  status=1 
+      
+      WHERE id="${command.id}"`
+    );
 
+
+    // liste des lignes de la commande 
+        const rows = await db.query(
+    `SELECT *
+    from ligne_commande
+    where ligne_commande.id_vente="${command.id}"
+    `
+  );
+
+  let message ;
+  const data = helper.emptyOrRows(rows);
+ data.forEach(e => {
+     
+   
+        const result =  db.query(
+      `UPDATE produit , ligne_commande 
+      SET  produit.QUANTITE = produit.QUANTITE - "${e.quantite}" , produit.qte_detaillant = produit.qte_detaillant + "${e.quantite}"
+      WHERE produit.ID_PRODUIT = "${e.id_produit}"
+       `
+    );
+
+      message = "Erreur lors de l'entree en stocks ";
+
+     // Incrementer les produit concerner et qtes dans le stocks du user 
+      
+
+          // appel de fonction de charge du user 
+
+           //verifie si le produit extiste 
+          /* const fouille =  db.query(
+    `SELECT *
+    FROM produit 
+    WHERE  ID_PRODUIT="${e.id_produit}
+     
+    "
+    
+    
+    `
+  );
+  const r1 = helper.emptyOrRows(rows);
+
+  if(r1==[]) {
+
+   const donnees = helper.emptyOrRows(fouille)
+
+    const creation =  db.query(
+    `INSERT INTO produit 
+    (  NOM_PRODUIT , prix , QUANTITE ,  PROPRIETAIRE   )
+    VALUES 
+    ( "${donnees.NOM_PRODUIT}", "${donnees.prix}", "${qte}" , "${command.user_id}" 
+     )`
+
+  );
+  } else {
+       const result =  db.query(
+      `UPDATE produit  
+      SET  produit.QUANTITE = produit.QUANTITE + "${e.quantite}"
+      WHERE produit.ID_PRODUIT = "${e.id_produit}"
+       `
+    );
+  }
+           */
+
+    if (result.affectedRows) {
+       message = "Commande valide avec succes ";
+    }
+
+   
+ })
+ 
+    return { message };
+  }
 /*  
 async function validateStock ( command) {
       const result = await db.query(
@@ -693,6 +772,7 @@ module.exports = {
 
   entreeStock,
   entreeStockList ,
-  validateStock
+  validateStock ,
+  validateStockDetaillant
 
 };
