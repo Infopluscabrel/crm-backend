@@ -9,11 +9,16 @@ const validator = require('validator');
 
 
 
-async function getMultiple(page = 1) {
+async function getMultiple(page = 1 , user) {
+ let id =  user.user_id
   const offset = helper.getOffset(page, config.listPerPage);
   const rows = await db.query(
     `SELECT *
-    FROM produit  LIMIT ${offset},${config.listPerPage}`
+    FROM produit 
+    WHERE  PROPRIETAIRE="${id}"
+    LIMIT ${offset},${config.listPerPage}
+    
+    `
   );
   const data = helper.emptyOrRows(rows);
   const meta = { page };
