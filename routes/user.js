@@ -10,7 +10,7 @@ const authRefresh = require('../middleware/authRefresh') ;
 router.get("/all", async function (req, res, next) {
   try {
     
-    res.json(await users.getMultiple(req.query.page));
+    res.json(await users.getMultiple(req.query.page , req.body ));
   } catch (err) {
     console.error(`Error while getting users s `, err.message);
     next(err);

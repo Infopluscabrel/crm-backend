@@ -9,11 +9,13 @@ const validator = require('validator');
 
 
 
-async function getMultiple(page = 1) {
+async function getMultiple(page = 1 , user) {
   const offset = helper.getOffset(page, config.listPerPage);
   const rows = await db.query(
     `SELECT *
-    FROM user  LIMIT ${offset},${config.listPerPage}`
+    FROM user
+    WHERE USE_ID_USER="${user.parrain}"
+    LIMIT ${offset},${config.listPerPage}`
   );
   const data = helper.emptyOrRows(rows);
   const meta = { page };

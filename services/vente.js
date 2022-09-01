@@ -431,7 +431,42 @@ const offset = helper.getOffset(page, config.listPerPage);
      // message = "Erreur lors de l'entree en stocks ";
 
      // Incrementer les produit concerner et qtes dans le stocks du user 
+      
+           //verifie si le produit extiste 
+            const fouille =  db.query(
+    `SELECT *
+    FROM produit 
+    WHERE  ID_PRODUIT="${e.id_produit}
+     
+    "
+    LIMIT ${offset},${config.listPerPage}
+    
+    `
+  );
+  const r1 = helper.emptyOrRows(rows);
 
+  if(r1==[]) {
+
+   const donnees = helper.emptyOrRows(fouille)
+
+    const creation =  db.query(
+    `INSERT INTO produit 
+    (  NOM_PRODUIT , prix , QUANTITE ,  PROPRIETAIRE   )
+    VALUES 
+    ( "${donnees.NOM_PRODUIT}", "${donnees.prix}", "${e.quantite}" , "${command.user_id}" 
+     )`
+
+  );
+  } else {
+       const result =  db.query(
+      `UPDATE produit  
+
+      SET  produit.QUANTITE = produit.QUANTITE + "${e.quantite}"
+      WHERE produit.ID_PRODUIT = "${e.id_produit}"
+       `
+    );
+  }
+             
 
     if (result.affectedRows) {
        message = "Commande valide avec succes ";
