@@ -7,6 +7,17 @@ const auth = require('../middleware/auth') ;
 const authRefresh = require('../middleware/authRefresh') ;
 
 /* GET ventes . */
+router.get("/all/me", async function (req, res, next) {
+  try {
+    
+    res.json(await ventes.getMesVentes(req.query.page , req.body));
+  } catch (err) {
+    console.error(`Error while getting ventes  `, err.message);
+    next(err);
+  }
+});
+
+/* GET ventes . */
 router.get("/all", async function (req, res, next) {
   try {
     

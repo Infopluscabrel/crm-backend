@@ -11,15 +11,51 @@ const validator = require('validator');
 
 async function getMultiple(page = 1 , user) {
   const offset = helper.getOffset(page, config.listPerPage);
-  const rows = await db.query(
-    `SELECT *
+  
+  let data = [] ;
+  // les user dont il est parrain 
+   const parrain = await db.query(
+    `SELECT ID_USER
+    FROM user
+    WHERE user.USE_ID_USER="${user.user_id}"
+    LIMIT ${offset},${config.listPerPage}`
+  );
+ 
+  parrain.forEach( u => {
+     const rows =  db.query(
+    `SELECT produit.NOM_PRODUIT , ligne_commande.quantite
     FROM vente  , ligne_commande , produit
-    WHERE vente.user_id="${user.user_id}"
+    WHERE vente.user_id="${u.user_id}"
 
     and ligne_commande.id_vente = vente.id 
 
     and ligne_commande.id_produit= produit.ID_PRODUIT
 
+    GROUP BY vente.id
+    LIMIT ${offset},${config.listPerPage}`
+  );
+   data.push(helper.emptyOrRows(rows));
+  })
+
+  
+ 
+  const meta = { page };
+
+  return {
+    data,
+    meta,
+  };
+}
+
+
+async function getMesVentes(page = 1 , user) {
+  const offset = helper.getOffset(page, config.listPerPage);
+  const rows = await db.query(
+    `SELECT *
+    FROM vente  , ligne_commande , produit
+    WHERE vente.user_id="${user.user_id}"
+    and ligne_commande.id_vente = vente.id 
+    and ligne_commande.id_produit= produit.ID_PRODUIT
     GROUP BY vente.id
     LIMIT ${offset},${config.listPerPage}`
   );
@@ -779,7 +815,7 @@ module.exports = {
   getOneIdToken,
   refreshToken,
   getOneIdRefreshToken,
-
+getMesVentes,
   entreeStock,
   entreeStockList ,
   validateStock ,
