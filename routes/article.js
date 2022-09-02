@@ -17,6 +17,40 @@ router.get("/all", async function (req, res, next) {
   }
 });
 
+
+/* GET articles du distributeur . */
+router.get("/all/distributeur", async function (req, res, next) {
+  try {
+    
+    res.json(await articles.getMultiple(req.query.page , req.body , 1));
+  } catch (err) {
+    console.error(`Error while getting articles s `, err.message);
+    next(err);
+  }
+});
+
+/* GET articles du grossiste . */
+router.get("/all/grossiste", async function (req, res, next) {
+  try {
+    
+    res.json(await articles.getMultiple(req.query.page , req.body , 2 ));
+  } catch (err) {
+    console.error(`Error while getting articles s `, err.message);
+    next(err);
+  }
+});
+
+/* GET articles du detaillant . */
+router.get("/all/detaillant", async function (req, res, next) {
+  try {
+    
+    res.json(await articles.getMultiple(req.query.page , req.body , 3));
+  } catch (err) {
+    console.error(`Error while getting articles s `, err.message);
+    next(err);
+  }
+});
+
 /* POST articles language */
 router.post("/new", async function (req, res, next) {
   try {

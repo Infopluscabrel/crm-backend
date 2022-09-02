@@ -423,7 +423,8 @@ async function validateStock ( command) {
    
         const result =  db.query(
       `UPDATE produit , ligne_commande 
-      SET  produit.QUANTITE = produit.QUANTITE - "${e.quantite}" , produit.qte_grossiste = produit.qte_grossiste + "${e.quantite}"
+      SET  produit.QUANTITE = produit.QUANTITE - "${e.quantite}" , produit.qte_grossiste = produit.qte_grossiste + "${e.quantite}",
+      produit.id_grossiste = "${command.user_id}"
       WHERE produit.ID_PRODUIT = "${e.id_produit}"
        `
     );
@@ -493,7 +494,7 @@ async function validateStockDetaillant ( command) {
         const rows = await db.query(
     `SELECT *
     from ligne_commande
-    where ligne_commande.id_vente="${command.id}"
+    where ligne_commande.id_vente="${command.user_id}"
     `
   );
 
@@ -504,7 +505,8 @@ async function validateStockDetaillant ( command) {
    
         const result =  db.query(
       `UPDATE produit , ligne_commande 
-      SET  produit.QUANTITE = produit.QUANTITE - "${e.quantite}" , produit.qte_detaillant = produit.qte_detaillant + "${e.quantite}"
+      SET  produit.QUANTITE = produit.QUANTITE - "${e.quantite}" , produit.qte_detaillant = produit.qte_detaillant + "${e.quantite}" ,
+      produit.id_detaillant = "${command.id}"
       WHERE produit.ID_PRODUIT = "${e.id_produit}"
        `
     );

@@ -9,18 +9,46 @@ const validator = require('validator');
 
 
 
-async function getMultiple(page = 1 , user) {
+async function getMultiple(page = 1 , user , role) {
+
  let id =  user.user_id
   const offset = helper.getOffset(page, config.listPerPage);
-  const rows = await db.query(
+
+let donnees 
+ if (role==1) {
+        donnees = await db.query(
+          `SELECT *
+          FROM produit 
+          WHERE  PROPRIETAIRE="${id}"
+          LIMIT ${offset},${config.listPerPage}
+          
+          `
+  );
+ } else if (role==2) {
+   
+            donnees = await db.query(
+        `SELECT *
+        FROM produit 
+        WHERE  id_grossiste="${id}"
+        LIMIT ${offset},${config.listPerPage}
+        
+        `
+  );
+ } else if(role==3) {
+     donnees = await db.query(
     `SELECT *
     FROM produit 
-    WHERE  PROPRIETAIRE="${id}"
+    WHERE  id_detaillant="${id}"
     LIMIT ${offset},${config.listPerPage}
     
     `
   );
-  const data = helper.emptyOrRows(rows);
+ }
+ 
+
+
+
+  const data = helper.emptyOrRows(donnees);
   const meta = { page };
 
   return {
