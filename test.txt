@@ -1,0 +1,22 @@
+ROLE
+
+{
+    "libelle": "ADMIN",
+    "niveau": 1000
+}
+
+
+USER
+
+{
+    "nom": "FOTSING",
+    "prenom": "Paulin",
+    "email": "paulinlenasaein@gmail.com",
+    "date_naissance": "14-06-1997",
+    "telephone": "656003276",
+    "role": {
+        "id_role": 1,
+        "libelle": "ADMIN",
+        "niveau": 1000
+    }
+}
