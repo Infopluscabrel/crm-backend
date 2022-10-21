@@ -25,6 +25,21 @@ app.use(cors());
 app.use(helmet());
 app.use(express.json())
 
+// Swagger configuration
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocCatProd = require('./swagger/catprod.json');
+const swaggerDocES = require('./swagger/entree-stock.json');
+var options = {
+    swaggerOptions: {
+        validatorUrl: null
+    }
+};
+
+app.use('/api-docs-cats', swaggerUi.serveFiles(swaggerDocCatProd, options), swaggerUi.setup(swaggerDocCatProd));
+app.use('/api-docs-es', swaggerUi.serveFiles(swaggerDocES, options), swaggerUi.setup(swaggerDocES));
+
+
+
 //Set all routes from routes folder
 app.use("/", routes);
 

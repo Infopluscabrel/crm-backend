@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { auth } from "../middleware/auth";
-import { addOrUpdateES, findOneES, findAllESByUser } from "../service/entreeStockService";
+import { addOrUpdateES, findOneES, findAllESByUser, deleteOneES } from "../service/entreeStockService";
 
 const router = Router();
 
@@ -25,16 +25,6 @@ router.get("/:id([0-9]+)", auth(), async function (req: Request, res: Response, 
     }
 });
 
-/* UPDATE Category */
-router.put("/update", auth(), async function (req: Request, res: Response, next: NextFunction) {
-    try {
-        res.status(200).json(await addOrUpdateES(req.body));
-    } catch (err: any) {
-        console.error(`Error while updating stock entry `, err.message);
-        next(err);
-    }
-});
-
 /* GET ALL Stock Entry For Given User */
 router.get("/:id/user", auth(), async function (req: Request, res: Response, next: NextFunction) {
     try {
@@ -43,6 +33,17 @@ router.get("/:id/user", auth(), async function (req: Request, res: Response, nex
         res.status(200).json(await findAllESByUser(page, user_id));
     } catch (err: any) {
         console.error(`Error while finding all stock entry`, err.message);
+        next(err);
+    }
+});
+
+/* DELETE Category */
+router.delete("/del/:id([0-9]+)", auth(), async function (req: Request, res: Response, next: NextFunction) {
+    try {
+        let id: any = req.params.id;
+        res.status(200).json(await deleteOneES(id));
+    } catch (err: any) {
+        console.error(`Error while deleting this entry `, err.message);
         next(err);
     }
 });

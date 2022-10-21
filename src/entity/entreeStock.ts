@@ -1,6 +1,6 @@
 import {
     Entity, Column, PrimaryGeneratedColumn, OneToOne,
-    JoinColumn, ManyToOne, CreateDateColumn, UpdateDateColumn
+    JoinColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, DeleteDateColumn
 } from "typeorm"
 import { Unite } from "./enums";
 import { Stock } from "./stock";
@@ -38,5 +38,8 @@ export class EntreeStock {
     created_at!: Date;
 
     @UpdateDateColumn()
-    updated_at!: Date
+    updated_at!: Date;
+
+    @DeleteDateColumn()
+    delete_date!: Date;
 }

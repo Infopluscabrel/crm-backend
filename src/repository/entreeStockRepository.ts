@@ -43,6 +43,10 @@ export async function getAllByUser(page: number, user_id: any) {
     };
 }
 
+export async function deleteES(id: number) {
+    return await enStockRepository.softDelete(id);
+}
+
 /*export async function getAllByUserForStat(page: number, user_id: any) {
     const offset = getOffset(page, config.listPerPage);
     const rows = await enStockRepository.createQueryBuilder("es")
