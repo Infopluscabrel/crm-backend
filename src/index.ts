@@ -29,14 +29,15 @@ app.use(express.json())
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocCatProd = require('./swagger/catprod.json');
 const swaggerDocES = require('./swagger/entree-stock.json');
+const swaggerDocFact = require('./swagger/facture.json');
 var options = {
     swaggerOptions: {
         validatorUrl: null
     }
 };
-
 app.use('/api-docs-cats', swaggerUi.serveFiles(swaggerDocCatProd, options), swaggerUi.setup(swaggerDocCatProd));
 app.use('/api-docs-es', swaggerUi.serveFiles(swaggerDocES, options), swaggerUi.setup(swaggerDocES));
+app.use('/api-docs-facts', swaggerUi.serveFiles(swaggerDocFact, options), swaggerUi.setup(swaggerDocFact));
 
 
 

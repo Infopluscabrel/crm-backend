@@ -13,18 +13,18 @@
         }
     },
     "tags": {
-        "name": "Cat-Products",
-        "description": "API pour la gestion des catégories de produits"
+        "name": "Facture",
+        "description": "API pour la gestion des factures"
     },
     "schemes": ["http"],
     "host": "localhost:5000",
     "basePath": "/",
     "paths": {
-        "/cats/new": {
+        "/facts/new": {
             "post": {
-                "tags": ["Cat-Products"],
-                "summary": "Créer une catégorie de produit",
-                "description": "Créer une nouvelle catégorie de produit dans la BDD",
+                "tags": ["Facture"],
+                "summary": "Créer une facture",
+                "description": "Créer une nouvelle facture dans la BDD",
                 "consumes": ["application/json"],
                 "produces": ["application/json"],
                 "parameters": [{
@@ -37,14 +37,14 @@
                     {
                         "in": "body",
                         "name": "body",
-                        "description": "un objet Categorie",
+                        "description": "un objet Facture",
                         "required": true,
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "catprod": {
+                                "facture": {
                                     "type": "object",
-                                    "$ref": "#/definitions/CatProd"
+                                    "$ref": "#/definitions/Facture"
                                 }
                             }
                         }
@@ -55,11 +55,8 @@
                         "description": "opération réussie",
                         "schema": {
                             "type": "object",
-                            "properties": {
-                                "catprod": {
-                                    "type": "object",
-                                    "$ref": "#/definitions/CatProd"
-                                }
+                            "items": {
+                                "$ref": "#/definitions/Facture"
                             }
                         }
                     },
@@ -72,11 +69,11 @@
                 }
             }
         },
-        "/cats/update/{id}": {
+        "/facts/update/{id}": {
             "put": {
-                "tags": ["Cat-Products"],
-                "summary": "Modifier une catégorie",
-                "description": "Modifier une catégorie",
+                "tags": ["Facture"],
+                "summary": "Modifier une facture",
+                "description": "Modifier une facture",
                 "produces": ["application/json"],
                 "consumes": ["application/json"],
                 "parameters": [{
@@ -89,21 +86,21 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID de la catégorie à modifier",
+                        "description": "ID de la facture à modifier",
                         "required": true,
                         "type": "integer"
                     },
                     {
                         "in": "body",
                         "name": "body",
-                        "description": "l'objet catégorie à modifier",
+                        "description": "l'objet facture à modifier",
                         "required": true,
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "catprod": {
+                                "facture": {
                                     "type": "object",
-                                    "$ref": "#/definitions/CatProd"
+                                    "$ref": "#/definitions/Facture"
                                 }
                             }
                         }
@@ -115,7 +112,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/CatProd"
+                                "$ref": "#/definitions/Facture"
                             }
                         }
                     },
@@ -128,11 +125,11 @@
                 }
             }
         },
-        "/cats/{id}": {
+        "/facts/{id}": {
             "get": {
-                "tags": ["Cat-Products"],
-                "summary": "Obtenir une Catégorie ayant un ID donné",
-                "description": "Obtenir une Catégorie ayant un ID donné",
+                "tags": ["Facture"],
+                "summary": "Obtenir une Facture ayant un ID donné",
+                "description": "Obtenir une Facture ayant un ID donné",
                 "produces": ["application/json"],
                 "parameters": [{
                         "name": "token",
@@ -144,7 +141,7 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID de la Catégorie recherchée",
+                        "description": "ID de la Facture recherchée",
                         "required": true,
                         "type": "string"
                     }
@@ -155,7 +152,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/CatProd"
+                                "$ref": "#/definitions/Facture"
                             }
                         }
                     },
@@ -168,11 +165,11 @@
                 }
             }
         },
-        "/cats": {
+        "/facts": {
             "get": {
-                "tags": ["Cat-Products"],
-                "summary": "Obtenir toutes les catégories",
-                "description": "Obtenir toutes les catégories de la BDD",
+                "tags": ["Facture"],
+                "summary": "Obtenir toutes les Factures",
+                "description": "Obtenir toutes les Factures de la BDD",
                 "produces": ["application/json"],
                 "parameters": [{
                     "name": "token",
@@ -187,45 +184,8 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/CatProd"
+                                "$ref": "#/definitions/Facture"
                             }
-                        }
-                    },
-                    "401": {
-                        "description": "Opération non autorisé",
-                        "schema": {
-                            "$ref": "#/definitions/MessageResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/cats/del/{id}": {
-            "delete": {
-                "tags": ["Cat-Products"],
-                "summary": "Supprimer la catégorie indiquée",
-                "description": "Supprimer la catégorie indiqué",
-                "produces": ["application/json"],
-                "parameters": [{
-                        "name": "token",
-                        "in": "header",
-                        "description": "Token de connexion de l'utilisateur",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID de la catégorie à supprimer",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "operation réussie",
-                        "schema": {
-                            "$ref": "#/definitions/MessageResponse"
                         }
                     },
                     "401": {
@@ -239,18 +199,18 @@
         }
     },
     "definitions": {
-        "CatProd": {
+        "Facture": {
             "type": "object",
             "properties": {
-                "id_categorie": {
+                "id_facture": {
                     "type": "integer"
                 },
-                "libelle": {
+                "qrcode": {
                     "type": "string",
                     "required": true
                 },
-                "produits": {
-                    "type": "array",
+                "net_a_payer": {
+                    "type": "number",
                     "required": false
                 },
                 "create_at": {
@@ -259,11 +219,6 @@
                     "required": false
                 },
                 "update_at": {
-                    "type": "string",
-                    "format": "date-time",
-                    "required": false
-                },
-                "delete_date": {
                     "type": "string",
                     "format": "date-time",
                     "required": false
