@@ -27,7 +27,7 @@ router.get("/:id([0-9]+)", auth(), async function (req: Request, res: Response, 
 });
 
 /* UPDATE Command Line */
-router.put("/update", auth(), async function (req: Request, res: Response, next: NextFunction) {
+router.put("/update/:id([0-9]+)", auth(), async function (req: Request, res: Response, next: NextFunction) {
     try {
         res.status(200).json(await addOrUpdateLC(req.body));
     } catch (err: any) {

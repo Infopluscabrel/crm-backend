@@ -1,0 +1,339 @@
+{
+    "swagger": "2.0",
+    "info": {
+        " description": "This is a Documentation of CRM NodeJS API project for Paie Cash Enterprise",
+        "version": "1.0.0",
+        "title": "CRM API",
+        "contact": {
+            "email": "paulinlenasaein@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "tags": {
+        "name": "Products",
+        "description": "API pour la gestion des produits"
+    },
+    "schemes": ["http"],
+    "host": "localhost:5000",
+    "basePath": "/",
+    "paths": {
+        "/prods/new": {
+            "post": {
+                "tags": ["Products"],
+                "summary": "Créer un produit",
+                "description": "Créer un nouveau produit dans la BDD",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "un objet Produit",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/Product"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "opération réussie",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/Product"
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/prods/update/{id}": {
+            "put": {
+                "tags": ["Products"],
+                "summary": "Modifier un produit",
+                "description": "Modifier un produit",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du produit à modifier",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "l'objet produit à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/Product"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Product"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/prods/{id}": {
+            "get": {
+                "tags": ["Products"],
+                "summary": "Obtenir un produit ayant un ID donné",
+                "description": "Obtenir un produit ayant un ID donné",
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du produit recherchée",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Product"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/catprod/{id}": {
+            "get": {
+                "tags": ["Products"],
+                "summary": "Obtenir les produits appartenant à une catégorie donnée",
+                "description": "Obtenir les produits appartenant à une catégorie donnée",
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la catégorie des produits recherchés",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Product"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/prods": {
+            "get": {
+                "tags": ["Products"],
+                "summary": "Obtenir toutes les produits",
+                "description": "Obtenir toutes les produits de la BDD",
+                "produces": ["application/json"],
+                "parameters": [{
+                    "name": "token",
+                    "in": "header",
+                    "description": "Token de connexion de l'utilisateur",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Product"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/prods/del/{id}": {
+            "delete": {
+                "tags": ["Products"],
+                "summary": "Supprimer le produit indiquée",
+                "description": "Supprimer le produit indiqué",
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du produit à supprimer",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Product": {
+            "type": "object",
+            "properties": {
+                "id_produit": {
+                    "type": "integer"
+                },
+                "nom_produit": {
+                    "type": "string",
+                    "required": true
+                },
+                "profil_produit": {
+                    "type": "string",
+                    "required": true
+                },
+                "catprod": {
+                    "type": "object",
+                    "properties": {
+                        "id_categorie": {
+                            "type": "integer"
+                        },
+                        "libelle": {
+                            "type": "string",
+                            "required": true
+                        },
+                        "create_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "required": false
+                        },
+                        "update_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "required": false
+                        },
+                        "delete_date": {
+                            "type": "string",
+                            "format": "date-time",
+                            "required": false
+                        }
+                    }
+                },
+                "create_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "required": false
+                },
+                "update_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "required": false
+                },
+                "delete_date": {
+                    "type": "string",
+                    "format": "date-time",
+                    "required": false
+                }
+            }
+        },
+        "MessageResponse": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+
+        }
+    }
+}

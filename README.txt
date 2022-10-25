@@ -18,3 +18,10 @@ Afin d'accéder à la documentation des APIs, nous avons utilisé Swagger et les
 - Catégories: /api-docs-cats
 - Entrée stock: /api-docs-es
 - Facture: /api-docs-facts
+- Ligne de Commande: /api-docs-lcoms
+- Produit: /api-docs-prods
+- Role: /api-docs-roles
+- Stock: /api-docs-stocks
+- Utilisateur: /api-docs-users
+- Auth: /api-docs-auth
+- Vente: /api-docs-ventes

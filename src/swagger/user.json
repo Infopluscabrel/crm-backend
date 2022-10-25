@@ -1,0 +1,433 @@
+{
+    "swagger": "2.0",
+    "info": {
+        " description": "This is a Documentation of CRM NodeJS API project for Paie Cash Enterprise",
+        "version": "1.0.0",
+        "title": "CRM API",
+        "contact": {
+            "email": "paulinlenasaein@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "tags": {
+        "name": "Users",
+        "description": "API pour la gestion des users"
+    },
+    "schemes": ["http"],
+    "host": "localhost:5000",
+    "basePath": "/",
+    "paths": {
+        "/users/new": {
+            "post": {
+                "tags": ["Users"],
+                "summary": "Créer un utilisateur",
+                "description": "Créer un nouvel utilisateur dans la BDD",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "un objet utilisateur",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "opération réussie",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/update/{id}": {
+            "put": {
+                "tags": ["Users"],
+                "summary": "Modifier un utilisateur",
+                "description": "Modifier un utilisateur",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du utilisateur à modifier",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "l'objet utilisateur à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/User"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "tags": ["Users"],
+                "summary": "Obtenir un utilisateur ayant un ID donné",
+                "description": "Obtenir un utilisateur ayant un ID donné",
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du utilisateur recherchée",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/User"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/logOrEmail": {
+            "get": {
+                "tags": ["Users"],
+                "summary": "Obtenir un utilisateur ayant un login ou un email donné",
+                "description": "Obtenir un utilisateur ayant un login ou un email donné",
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "loe",
+                        "in": "path",
+                        "description": "Login ou email de l'utilisateur recherchée",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/User"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}/user": {
+            "get": {
+                "tags": ["Users"],
+                "summary": "Obtenir des informations partiels sur utilisateur donnée",
+                "description": "Obtenir des informations partiels sur utilisateur donnée",
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'utilisateur",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/User"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/parrain/{parr}": {
+            "get": {
+                "tags": ["Users"],
+                "summary": "Obtenir les utilisateurs d'un distributeur ou d'un grossiste donné",
+                "description": "Obtenir les utilisateurs d'un distributeur ou d'un grossiste donné",
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "parr",
+                        "in": "path",
+                        "description": "ID du distributeur ou grossiste",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/User"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "tags": ["Users"],
+                "summary": "Obtenir tous les utilisateurs",
+                "description": "Obtenir tous les utilisateurs",
+                "produces": ["application/json"],
+                "parameters": [{
+                    "name": "token",
+                    "in": "header",
+                    "description": "Token de connexion de l'utilisateur",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/User"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/del/{id}": {
+            "delete": {
+                "tags": ["Users"],
+                "summary": "Supprimer l'utilisateur indiquée",
+                "description": "Supprimer l'utilisateur indiqué",
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du utilisateur à supprimer",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "User": {
+            "type": "object",
+            "properties": {
+                "id_user": {
+                    "type": "integer"
+                },
+                "nom": {
+                    "type": "string",
+                    "required": true
+                },
+                "prenom": {
+                    "type": "string",
+                    "required": true
+                },
+                "email": {
+                    "type": "string",
+                    "required": true
+                },
+                "telephone": {
+                    "type": "string",
+                    "required": true
+                },
+                "date_naissance": {
+                    "type": "string",
+                    "format": "date-time",
+                    "required": false
+                },
+                "role": {
+                    "type": "object",
+                    "properties": {
+                        "id_role": {
+                            "type": "integer"
+                        },
+                        "libelle": {
+                            "type": "string"
+                        },
+                        "niveau": {
+                            "type": "integer"
+                        },
+                        "create_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "required": false
+                        },
+                        "update_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "required": false
+                        },
+                        "delete_date": {
+                            "type": "string",
+                            "format": "date-time",
+                            "required": false
+                        }
+                    }
+                },
+                "create_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "required": false
+                },
+                "update_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "required": false
+                },
+                "delete_date": {
+                    "type": "string",
+                    "format": "date-time",
+                    "required": false
+                }
+            }
+        },
+        "MessageResponse": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

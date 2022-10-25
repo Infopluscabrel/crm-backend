@@ -53,7 +53,7 @@ router.get("/catprod/:cat([0-9]+)", auth(), async function (req: Request, res: R
 });
 
 /* UPDATE Category */
-router.put("/update", auth(), async function (req: Request, res: Response, next: NextFunction) {
+router.put("/update/:id([0-9]+)", auth(), async function (req: Request, res: Response, next: NextFunction) {
     try {
         res.status(200).json(await addOrUpdateProduct(req.body));
     } catch (err: any) {

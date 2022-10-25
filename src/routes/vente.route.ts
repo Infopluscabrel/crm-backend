@@ -118,7 +118,7 @@ router.get("/livree/:vente", auth(), async function (req: Request, res: Response
 
 
 /* UPDATE Vente */
-router.put("/update", auth(), async function (req: Request, res: Response, next: NextFunction) {
+router.put("/update/:id([0-9]+)", auth(), async function (req: Request, res: Response, next: NextFunction) {
     try {
         res.status(200).json(await addOrUpdateVente(req.body));
     } catch (err: any) {

@@ -1,0 +1,394 @@
+{
+    "swagger": "2.0",
+    "info": {
+        " description": "This is a Documentation of CRM NodeJS API project for Paie Cash Enterprise",
+        "version": "1.0.0",
+        "title": "CRM API",
+        "contact": {
+            "email": "paulinlenasaein@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "tags": {
+        "name": "Stocks",
+        "description": "API pour la gestion des stocks des utilisateurs"
+    },
+    "schemes": ["http"],
+    "host": "localhost:5000",
+    "basePath": "/",
+    "paths": {
+        "/stocks/new": {
+            "post": {
+                "tags": ["Stocks"],
+                "summary": "Créer un stock",
+                "description": "Créer un nouveau stock dans la BDD",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "un objet stock",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/Stock"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "opération réussie",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/Stock"
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/stocks/update/{id}": {
+            "put": {
+                "tags": ["Stocks"],
+                "summary": "Modifier un stock",
+                "description": "Modifier un stock",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du stock à modifier",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "l'objet stock à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/Stock"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Stock"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/stocks/{id}": {
+            "get": {
+                "tags": ["Stocks"],
+                "summary": "Obtenir un stock ayant un ID donné",
+                "description": "Obtenir un stock ayant un ID donné",
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du stock recherchée",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Stock"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/stocks/{id}/user": {
+            "get": {
+                "tags": ["Stocks"],
+                "summary": "Obtenir le stock d'un utilisateur donnée",
+                "description": "Obtenir le stock d'un utilisateur donnée",
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'utilisateur",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Stock"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/stocks/{id}/user/{cat}/cat": {
+            "get": {
+                "tags": ["Stocks"],
+                "summary": "Obtenir le stock d'un utilisateur et appartenant à une catégorie donnée",
+                "description": "Obtenir le stock d'un utilisateur et appartenant à une catégorie donnée",
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'utilisateur",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "cat",
+                        "in": "path",
+                        "description": "ID de la catégorie du produit",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Stock"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/{id}/user/{val}/val": {
+            "get": {
+                "tags": ["Stocks"],
+                "summary": "Obtenir le stock valide d'un utilisateur donnée",
+                "description": "Obtenir le stock valide d'un utilisateur donnée",
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'utilisateur",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "val",
+                        "in": "path",
+                        "description": "Validation du produit en stock",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Stock"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/stocks/del/{id}": {
+            "delete": {
+                "tags": ["Stocks"],
+                "summary": "Supprimer le stock indiquée",
+                "description": "Supprimer le stock indiqué",
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du stock à supprimer",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Stock": {
+            "type": "object",
+            "properties": {
+                "id_stock": {
+                    "type": "integer"
+                },
+                "produit": {
+                    "type": "object",
+                    "required": true
+                },
+                "prix_unite": {
+                    "type": "number",
+                    "required": true
+                },
+                "user": {
+                    "type": "object",
+                    "required": true
+                },
+                "quantite": {
+                    "type": "integer",
+                    "required": true
+                },
+                "unit": {
+                    "type": "string",
+                    "$ref": "#/definitions/Unite",
+                    "required": true
+                },
+                "validation": {
+                    "type": "integer",
+                    "required": false
+                },
+                "create_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "required": false
+                },
+                "update_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "required": false
+                },
+                "delete_date": {
+                    "type": "string",
+                    "format": "date-time",
+                    "required": false
+                }
+            }
+        },
+        "MessageResponse": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "Unite": {
+            "type": "string",
+            "enum": ["BOUT_PLAST", "BOUT_VERRE", "CASIER", "PALETTE", "BRIQUE", "CARTON"]
+        }
+    }
+}

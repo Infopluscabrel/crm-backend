@@ -1,0 +1,270 @@
+{
+    "swagger": "2.0",
+    "info": {
+        " description": "This is a Documentation of CRM NodeJS API project for Paie Cash Enterprise",
+        "version": "1.0.0",
+        "title": "CRM API",
+        "contact": {
+            "email": "paulinlenasaein@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "tags": {
+        "name": "Roles",
+        "description": "API pour la gestion des rôless"
+    },
+    "schemes": ["http"],
+    "host": "localhost:5000",
+    "basePath": "/",
+    "paths": {
+        "/roles/new": {
+            "post": {
+                "tags": ["Roles"],
+                "summary": "Créer un rôle",
+                "description": "Créer un nouveau rôle dans la BDD",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "un objet Role",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/Role"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "opération réussie",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/Role"
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/roles/update/{id}": {
+            "put": {
+                "tags": ["Roles"],
+                "summary": "Modifier un rôle",
+                "description": "Modifier un rôle",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du rôle à modifier",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "l'objet rôle à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/Role"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Role"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/roles/{id}": {
+            "get": {
+                "tags": ["Roles"],
+                "summary": "Obtenir un rôle ayant un ID donné",
+                "description": "Obtenir un rôle ayant un ID donné",
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du rôle recherchée",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Role"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/roles": {
+            "get": {
+                "tags": ["Roles"],
+                "summary": "Obtenir toutes les rôles",
+                "description": "Obtenir toutes les rôles de la BDD",
+                "produces": ["application/json"],
+                "parameters": [{
+                    "name": "token",
+                    "in": "header",
+                    "description": "Token de connexion de l'utilisateur",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Role"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/roles/del/{id}": {
+            "delete": {
+                "tags": ["Roles"],
+                "summary": "Supprimer le rôle indiquée",
+                "description": "Supprimer le rôle indiqué",
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du rôle à supprimer",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Role": {
+            "type": "object",
+            "properties": {
+                "id_role": {
+                    "type": "integer"
+                },
+                "libelle": {
+                    "type": "string"
+                },
+                "niveau": {
+                    "type": "integer"
+                },
+                "create_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "required": false
+                },
+                "update_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "required": false
+                },
+                "delete_date": {
+                    "type": "string",
+                    "format": "date-time",
+                    "required": false
+                }
+            }
+        },
+        "MessageResponse": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+
+        }
+    }
+}

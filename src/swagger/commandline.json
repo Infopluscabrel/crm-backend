@@ -1,0 +1,329 @@
+{
+    "swagger": "2.0",
+    "info": {
+        " description": "This is a Documentation of CRM NodeJS API project for Paie Cash Enterprise",
+        "version": "1.0.0",
+        "title": "CRM API",
+        "contact": {
+            "email": "paulinlenasaein@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "tags": {
+        "name": "Command-Line",
+        "description": "API pour la gestion des lignes de commande"
+    },
+    "schemes": ["http"],
+    "host": "localhost:5000",
+    "basePath": "/",
+    "paths": {
+        "/lcoms/new": {
+            "post": {
+                "tags": ["Command-Line"],
+                "summary": "Créer une ligne de commande",
+                "description": "Créer une nouvelle ligne de commande dans la BDD",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "un objet CommandLine",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/CommandLine"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "opération réussie",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/CommandLine"
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/lcoms/update/{id}": {
+            "put": {
+                "tags": ["Command-Line"],
+                "summary": "Modifier une ligne de commande",
+                "description": "Modifier une ligne de commande",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la ligne de commande à modifier",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "l'objet ligne de commande à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/CommandLine"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/CommandLine"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/lcoms/{id}": {
+            "get": {
+                "tags": ["Command-Line"],
+                "summary": "Obtenir une ligne de commande ayant un ID donné",
+                "description": "Obtenir une ligne de commande ayant un ID donné",
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la ligne de commande recherchée",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/CommandLine"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/lcoms/{id}/vente": {
+            "get": {
+                "tags": ["Command-Line"],
+                "summary": "Obtenir les lignes de commande d'une vente donnée",
+                "description": "Obtenir les lignes de commande d'une vente donnée",
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la vente",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/CommandLine"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/lcoms": {
+            "get": {
+                "tags": ["Command-Line"],
+                "summary": "Obtenir toutes les ligne de commandes",
+                "description": "Obtenir toutes les ligne de commandes de la BDD",
+                "produces": ["application/json"],
+                "parameters": [{
+                    "name": "token",
+                    "in": "header",
+                    "description": "Token de connexion de l'utilisateur",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/CommandLine"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/lcoms/del/{id}": {
+            "delete": {
+                "tags": ["Command-Line"],
+                "summary": "Supprimer la ligne de commande donnée",
+                "description": "Supprimer la ligne de commande donnée",
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la ligne de commande à supprimer",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "CommandLine": {
+            "type": "object",
+            "properties": {
+                "id_lc": {
+                    "type": "integer"
+                },
+                "produit": {
+                    "type": "object",
+                    "required": true
+                },
+                "stock": {
+                    "type": "object",
+                    "required": true
+                },
+                "vente": {
+                    "type": "object",
+                    "required": true
+                },
+                "quantite": {
+                    "type": "integer",
+                    "required": true
+                },
+                "unit": {
+                    "type": "string",
+                    "$ref": "#/definitions/Unite",
+                    "required": true
+                },
+                "create_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "required": false
+                },
+                "update_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "required": false
+                },
+                "delete_date": {
+                    "type": "string",
+                    "format": "date-time",
+                    "required": false
+                }
+            }
+        },
+        "Unite": {
+            "type": "string",
+            "enum": ["BOUT_PLAST", "BOUT_VERRE", "CASIER", "PALETTE", "BRIQUE", "CARTON"]
+        },
+        "MessageResponse": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+
+        }
+    }
+}

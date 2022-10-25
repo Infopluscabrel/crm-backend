@@ -38,7 +38,7 @@ router.get("/", auth(), async function (req: Request, res: Response, next: NextF
 
 
 /* UPDATE Role */
-router.put("/update", auth(), async function (req: Request, res: Response, next: NextFunction) {
+router.put("/update/:id([0-9]+)", auth(), async function (req: Request, res: Response, next: NextFunction) {
     try {
         res.status(200).json(await addOrUpdateRole(req.body));
     } catch (err: any) {

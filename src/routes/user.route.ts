@@ -56,9 +56,10 @@ router.get("/:id([0-9]+)/user", auth(), async function (req: Request, res: Respo
 });
 
 /* GET One User By Login or Email*/
-router.post("/logOrEmail", auth(), async function (req: Request, res: Response, next: NextFunction) {
+router.post("/logOrEmail/:loe", auth(), async function (req: Request, res: Response, next: NextFunction) {
     try {
-        res.status(200).json(await findOneUserByLoginOrEmail(req.body));
+        let loginOrEmail: any = req.params.loe;
+        res.status(200).json(await findOneUserByLoginOrEmail(loginOrEmail));
     } catch (err: any) {
         console.error(`Error while getting this user `, err.message);
         next(err);
@@ -66,7 +67,7 @@ router.post("/logOrEmail", auth(), async function (req: Request, res: Response, 
 });
 
 /* UPDATE User */
-router.put("/update", auth(), async function (req: Request, res: Response, next: NextFunction) {
+router.put("/update/:id([0-9]+)", auth(), async function (req: Request, res: Response, next: NextFunction) {
     try {
         res.status(200).json(await UpdateUser(req.body));
     } catch (err: any) {
@@ -123,9 +124,7 @@ router.get("/login/:role", async function (req: Request, res: Response, next: Ne
 /* REFRESH USER TOKEN */
 router.get("/refresh/:logOrEmail", auth(), async function (req: Request, res: Response, next: NextFunction) {
     try {
-        let page: any = req.query.page || 1;
         let loe: any = req.params.logOrEmail;
-        let val: any = req.params.val;
         res.status(200).json(await refreshToken(loe));
     } catch (err: any) {
         console.error(`Error while finding all user`, err.message);

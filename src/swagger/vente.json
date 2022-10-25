@@ -1,0 +1,603 @@
+{
+    "swagger": "2.0",
+    "info": {
+        " description": "This is a Documentation of CRM NodeJS API project for Paie Cash Enterprise",
+        "version": "1.0.0",
+        "title": "CRM API",
+        "contact": {
+            "email": "paulinlenasaein@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "tags": {
+        "name": "Ventes",
+        "description": "API pour la gestion des ventes"
+    },
+    "schemes": ["http"],
+    "host": "localhost:5000",
+    "basePath": "/",
+    "paths": {
+        "/ventes/new": {
+            "post": {
+                "tags": ["Ventes"],
+                "summary": "Créer une vente",
+                "description": "Créer une nouvelle vente",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "un objet vente",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/Vente"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "opération réussie",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/Vente"
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ventes/update/{id}": {
+            "put": {
+                "tags": ["Ventes"],
+                "summary": "Modifier une vente",
+                "description": "Modifier une vente",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la vente à modifier",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "l'objet vente à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/Vente"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Vente"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ventes/{id}": {
+            "get": {
+                "tags": ["Ventes"],
+                "summary": "Obtenir une vente ayant un ID donné",
+                "description": "Obtenir une vente ayant un ID donné",
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la vente recherchée",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Vente"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ventes/fact/{fact}": {
+            "get": {
+                "tags": ["Ventes"],
+                "summary": "Obtenir une vente ayant une facture donnée",
+                "description": "Obtenir une vente ayant une facture donnée",
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fact",
+                        "in": "path",
+                        "description": "ID de la facture",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Vente"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ventes/fuser/{id}/{type}": {
+            "get": {
+                "tags": ["Ventes"],
+                "summary": "Obtenir les ventes ou commandes émises par un utilisateur donné",
+                "description": "Obtenir les ventes ou commandes émises par un utilisateur donné",
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'utilisateur",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "type",
+                        "in": "path",
+                        "description": "Type de vente (VENTE ou COMMANDE)",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Vente"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ventes/tuser/{id}": {
+            "get": {
+                "tags": ["Ventes"],
+                "summary": "Obtenir la liste des commandes reçues par un utilisateur",
+                "description": "Obtenir la liste des commandes reçues par un utilisateur",
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'utilisateur",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Vente"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ventes/status/{id}/{status}": {
+            "get": {
+                "tags": ["Ventes"],
+                "summary": "Obtenir les ventes et commandes d'un utilisateur ayant un status donné",
+                "description": "Obtenir les ventes et commandes d'un utilisateur ayant un status donné",
+                "produces": ["application/json"],
+                "parameters": [{
+                    "name": "token",
+                    "in": "header",
+                    "description": "Token de connexion de l'utilisateur",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Vente"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ventes/tuser-liv/{id}/{liv}": {
+            "get": {
+                "tags": ["Ventes"],
+                "summary": "Obtenir la liste des commandes reçues avec un status de livraison donné",
+                "description": "Obtenir la liste des commandes reçues avec un status de livraison donné",
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'utilisateur",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "liv",
+                        "in": "path",
+                        "description": "Statut de livraison (1 pour livrée et 0 pour non livrée)",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Vente"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ventes/livree/{venteID}": {
+            "get": {
+                "tags": ["Ventes"],
+                "summary": "Mettre à jour les stocks après livraison de la commande",
+                "description": "Mettre à jour les stocks après livraison de la commande",
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "venteID",
+                        "in": "path",
+                        "description": "ID de la vente",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ventes": {
+            "get": {
+                "tags": ["Ventes"],
+                "summary": "Obtenir toutes les ventes",
+                "description": "Obtenir toutes les ventes",
+                "produces": ["application/json"],
+                "parameters": [{
+                    "name": "token",
+                    "in": "header",
+                    "description": "Token de connexion de l'utilisateur",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Vente"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ventes/del/{id}": {
+            "delete": {
+                "tags": ["Ventes"],
+                "summary": "Supprimer la vente indiquée",
+                "description": "Supprimer la vente indiquée",
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "description": "Token de connexion de l'utilisateur",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la vente à supprimer",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "operation réussie",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Opération non autorisé",
+                        "schema": {
+                            "$ref": "#/definitions/MessageResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Vente": {
+            "type": "object",
+            "properties": {
+                "id_vente": {
+                    "type": "integer"
+                },
+                "fact": {
+                    "type": "object",
+                    "$ref": "#/definitions/Facture",
+                    "required": true
+                },
+                "paiement_status": {
+                    "type": "string",
+                    "$ref": "#/definitions/Status",
+                    "required": false
+                },
+                "fromUser": {
+                    "type": "object",
+                    "required": true
+                },
+                "toUser": {
+                    "type": "object",
+                    "required": true
+                },
+                "total": {
+                    "type": "number",
+                    "required": true
+                },
+                "type": {
+                    "type": "string",
+                    "$ref": "#/definitions/TypeVente",
+                    "required": true
+                },
+                "moyen_paiement": {
+                    "type": "string",
+                    "$ref": "#/definitions/Moyen",
+                    "required": true
+                },
+                "date_paiement": {
+                    "type": "string",
+                    "format": "date-time",
+                    "required": false
+                },
+                "validee": {
+                    "type": "integer",
+                    "required": false
+                },
+                "date_validation": {
+                    "type": "string",
+                    "format": "date-time",
+                    "required": false
+                },
+                "livree": {
+                    "type": "integer",
+                    "required": false
+                },
+                "date_livraison": {
+                    "type": "string",
+                    "format": "date-time",
+                    "required": false
+                },
+                "create_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "required": false
+                },
+                "update_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "required": false
+                },
+                "delete_date": {
+                    "type": "string",
+                    "format": "date-time",
+                    "required": false
+                }
+            }
+        },
+        "Facture": {
+            "type": "object",
+            "properties": {
+                "id_facture": {
+                    "type": "integer"
+                },
+                "qrcode": {
+                    "type": "string",
+                    "required": true
+                },
+                "net_a_payer": {
+                    "type": "number",
+                    "required": false
+                },
+                "create_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "required": false
+                },
+                "update_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "required": false
+                }
+            }
+        },
+        "Unite": {
+            "type": "string",
+            "enum": ["BOUT_PLAST", "BOUT_VERRE", "CASIER", "PALETTE", "BRIQUE", "CARTON"]
+        },
+        "Status": {
+            "type": "string",
+            "enum": ["INIT", "SUCCESS", "FAILED"]
+        },
+        "TypeVente": {
+            "type": "string",
+            "enum": ["VENTE", "COMMANDE"]
+        },
+        "Moyen": {
+            "type": "string",
+            "enum": ["CASH", "PAIE_CASH", "OM", "MOMO"]
+        },
+        "MessageResponse": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

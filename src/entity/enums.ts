@@ -1,7 +1,7 @@
 export enum Status {
     INIT = "INIT",
     SUCCESS = "SUCCESS",
-    FAILED = "FAILDE",
+    FAILED = "FAILED",
 }
 
 export enum Unite {

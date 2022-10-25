@@ -27,7 +27,7 @@ router.get("/:id([0-9]+)", auth(), async function (req: Request, res: Response, 
 });
 
 /* UPDATE Stock */
-router.put("/update", auth(), async function (req: Request, res: Response, next: NextFunction) {
+router.put("/update/:id([0-9]+)", auth(), async function (req: Request, res: Response, next: NextFunction) {
     try {
         res.status(200).json(await addOrUpdateStock(req.body));
     } catch (err: any) {
@@ -36,8 +36,8 @@ router.put("/update", auth(), async function (req: Request, res: Response, next:
     }
 });
 
-/* GET ALL Stock  FOR Given User */
-router.get("/:id/:cat/user", auth(), async function (req: Request, res: Response, next: NextFunction) {
+/* GET ALL Stock FOR Given User */
+router.get("/:id([0-9]+)/user", auth(), async function (req: Request, res: Response, next: NextFunction) {
     try {
         let page: any = req.query.page || 1;
         let user_id: any = req.params.id;
@@ -49,7 +49,7 @@ router.get("/:id/:cat/user", auth(), async function (req: Request, res: Response
 });
 
 /* GET ALL Stock  FOR Given User and Category */
-router.get("/:id/:cat/user/cat", auth(), async function (req: Request, res: Response, next: NextFunction) {
+router.get("/:id([0-9]+)/user/:cat([0-9]+)/cat", auth(), async function (req: Request, res: Response, next: NextFunction) {
     try {
         let page: any = req.query.page || 1;
         let user_id: any = req.params.id;
@@ -62,7 +62,7 @@ router.get("/:id/:cat/user/cat", auth(), async function (req: Request, res: Resp
 });
 
 /* GET ALL Stock For Given User and Validation */
-router.get("/:id/:val/user/val", auth(), async function (req: Request, res: Response, next: NextFunction) {
+router.get("/:id([0-9]+)/user/:val/val", auth(), async function (req: Request, res: Response, next: NextFunction) {
     try {
         let page: any = req.query.page || 1;
         let user_id: any = req.params.id;
