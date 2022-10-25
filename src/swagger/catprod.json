@@ -41,12 +41,7 @@
                         "required": true,
                         "schema": {
                             "type": "object",
-                            "properties": {
-                                "catprod": {
-                                    "type": "object",
-                                    "$ref": "#/definitions/CatProd"
-                                }
-                            }
+                            "$ref": "#/definitions/CatProd"
                         }
                     }
                 ],
@@ -55,12 +50,7 @@
                         "description": "opération réussie",
                         "schema": {
                             "type": "object",
-                            "properties": {
-                                "catprod": {
-                                    "type": "object",
-                                    "$ref": "#/definitions/CatProd"
-                                }
-                            }
+                            "$ref": "#/definitions/CatProd"
                         }
                     },
                     "401": {
@@ -100,12 +90,7 @@
                         "required": true,
                         "schema": {
                             "type": "object",
-                            "properties": {
-                                "catprod": {
-                                    "type": "object",
-                                    "$ref": "#/definitions/CatProd"
-                                }
-                            }
+                            "$ref": "#/definitions/CatProd"
                         }
                     }
                 ],
@@ -225,6 +210,7 @@
                     "200": {
                         "description": "operation réussie",
                         "schema": {
+                            "type": "object",
                             "$ref": "#/definitions/MessageResponse"
                         }
                     },

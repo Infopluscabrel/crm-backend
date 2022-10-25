@@ -41,12 +41,7 @@
                         "required": true,
                         "schema": {
                             "type": "object",
-                            "properties": {
-                                "facture": {
-                                    "type": "object",
-                                    "$ref": "#/definitions/Facture"
-                                }
-                            }
+                            "$ref": "#/definitions/Facture"
                         }
                     }
                 ],
@@ -97,12 +92,7 @@
                         "required": true,
                         "schema": {
                             "type": "object",
-                            "properties": {
-                                "facture": {
-                                    "type": "object",
-                                    "$ref": "#/definitions/Facture"
-                                }
-                            }
+                            "$ref": "#/definitions/Facture"
                         }
                     }
                 ],

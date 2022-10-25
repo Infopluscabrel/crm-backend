@@ -40,12 +40,7 @@
                         "required": true,
                         "schema": {
                             "type": "object",
-                            "properties": {
-                                "catprod": {
-                                    "type": "object",
-                                    "$ref": "#/definitions/EntreeStock"
-                                }
-                            }
+                            "$ref": "#/definitions/EntreeStock"
                         }
                     }
                 ],
@@ -62,6 +57,7 @@
                     "401": {
                         "description": "Opération non autorisé",
                         "schema": {
+                            "type": "object",
                             "$ref": "#/definitions/MessageResponse"
                         }
                     }
