@@ -5,7 +5,7 @@ export const AppDataSource = new DataSource({
     host: "localhost",
     port: 3306,
     username: "paulin",
-    password: "jesusmonsauveur25",
+    password: "",
     database: "test-crm",
     synchronize: true,
     logging: true,
