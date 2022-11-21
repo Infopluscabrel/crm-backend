@@ -27,7 +27,7 @@ router.get("/:id([0-9]+)", auth(), async function (req: Request, res: Response, 
 });
 
 /* GET All Roles */
-router.get("/", auth(), async function (req: Request, res: Response, next: NextFunction) {
+router.get("/", async function (req: Request, res: Response, next: NextFunction) {
     try {
         res.status(200).json(await findAllRole());
     } catch (err: any) {

@@ -56,7 +56,7 @@ router.get("/:id([0-9]+)/user", auth(), async function (req: Request, res: Respo
 });
 
 /* GET One User By Login or Email*/
-router.post("/logOrEmail/:loe", auth(), async function (req: Request, res: Response, next: NextFunction) {
+router.get("/logOrEmail/:loe", auth(), async function (req: Request, res: Response, next: NextFunction) {
     try {
         let loginOrEmail: any = req.params.loe;
         res.status(200).json(await findOneUserByLoginOrEmail(loginOrEmail));
@@ -76,7 +76,7 @@ router.put("/update/:id([0-9]+)", auth(), async function (req: Request, res: Res
     }
 });
 
-/* GET ALL User By Login And Role */
+/* GET ALL CHILD OF A GIVEN USER */
 router.get("/parrain/:parrain", auth(), async function (req: Request, res: Response, next: NextFunction) {
     try {
         let page: any = req.query.page || 1;
@@ -100,7 +100,7 @@ router.get("/", auth(), async function (req: Request, res: Response, next: NextF
 });
 
 /* LOGIN */
-router.get("/login/:role", async function (req: Request, res: Response, next: NextFunction) {
+router.get("/login", async function (req: Request, res: Response, next: NextFunction) {
     try {
         let role_id: any = req.params.role;
         let basic = req.headers.authorization;
@@ -112,7 +112,7 @@ router.get("/login/:role", async function (req: Request, res: Response, next: Ne
             res.status(401).send({ error: 'Invalid Basic Auth Token' });
         } else {
             const [log, pass] = utf8.decode(base64.decode(token)).split(':');
-            const result = await login(log, pass, role_id);
+            const result = await login(log, pass);
             res.status(200).json(result);
         }
     } catch (err: any) {

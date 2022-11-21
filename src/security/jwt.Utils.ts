@@ -15,7 +15,7 @@ export function validateToken(token: string): Promise<any> {
 
 export function validateRefreshToken(token: string): Promise<any> {
     const verifyOptions: VerifyOptions = {
-        algorithms: ['RS256']
+        algorithms: ['HS256']
     };
     let tokensecret = process.env.RefreshsecretToken as string
     return new Promise((resolve, reject) => {

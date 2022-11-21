@@ -3,7 +3,7 @@ import { User } from "../entity/user";
 import bcrypt from 'bcrypt';
 import {
     createOrUpdateUser, deleteUser, getAllChild, getOneUserById,
-    getOneUserByID, getOneUserByLoginOrEmail, getOneUserByLoginAndRole, getAllUser,
+    getOneUserByID, getOneUserByLoginOrEmail, getAllUser,
 }
     from "../repository/userRepository";
 import { emptyOrRows } from "../helper";
@@ -33,7 +33,7 @@ export async function addUser(user: User) {
 }
 
 export async function UpdateUser(user: User) {
-    let message = "user created successfully";
+    let message = "user updated successfully";
     let data;
     const errors = await validate(user)
     if (errors.length > 0) {
@@ -73,11 +73,11 @@ export async function deleteOneUser(id: number) {
     return deleteUser(id);
 }
 
-export async function login(login: string, password: string, niveau: number) {
+export async function login(login: string, password: string) {
     let status = 200;
     let userToken;
     let data: User = new User();
-    await getOneUserByLoginAndRole(login, niveau)
+    await getOneUserByLoginOrEmail(login)
         .then(async (value) => {
             if (value.length != 0) {
                 if (value[0].password == null) {
