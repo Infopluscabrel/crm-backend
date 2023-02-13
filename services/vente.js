@@ -424,6 +424,27 @@ async function entreeStock(id, produit) {
   return { message };
 }
 
+async function sortieStock(id, produit) {
+
+  const result = await db.query(
+    `UPDATE produit
+    SET  QUANTITE=produit.QUANTITE - "${produit.quantite}"
+    
+    WHERE ID_PRODUIT="${id}"`
+  );
+
+   const entree = await db.query(
+    `INSERT INTO entreestock( id_produit, quantite) VALUES ( "${produit.id}"  , "${produit.quantite}" )`
+  );
+  let message = "Erreur lors de l'entree en stocks ";
+
+  if (result.affectedRows) {
+    message = "entree executed successfully";
+  }
+
+  return { message };
+}
+
 async function entreeStockList(id, produit, page = 1) {
 const offset = helper.getOffset(page, config.listPerPage);
   const rows = await db.query(
@@ -817,6 +838,7 @@ module.exports = {
   getOneIdRefreshToken,
 getMesVentes,
   entreeStock,
+  sortieStock,
   entreeStockList ,
   validateStock ,
   validateStockDetaillant

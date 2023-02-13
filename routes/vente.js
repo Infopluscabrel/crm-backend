@@ -107,6 +107,17 @@ router.post("/stock/entree",   async function (req, res, next) {
   }
 });
 
+  /* PUT ventes language */
+router.post("/stock/sortie",   async function (req, res, next) {
+  try {
+    
+    res.json(await ventes.sortieStock(req.body.id  , req.body) );
+  } catch (err) {
+    console.error(`Error while updating vente `, err.message);
+    next(err);
+  }
+});
+
 /* PUT ventes password */
 router.put("/update/password", auth ,  async function (req, res, next) {
   try {
